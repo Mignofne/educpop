@@ -3,7 +3,6 @@ import { redirect } from "next/navigation"
 import { isAdminAuthenticated, getAdminSecret } from "@/lib/admin/auth"
 import { AdminDashboard } from "@/components/admin/dashboard"
 import { getDashboardStats } from "@/lib/admin/dashboard-stats"
-import { Button } from "@/components/ui/button"
 
 export const metadata = {
   title: "Tableau de bord",
@@ -37,9 +36,12 @@ export default async function AdminDashboardPage() {
             Conversion, catalogue, téléchargements et engagement
           </p>
         </div>
-        <Button asChild variant="outline" className="rounded-full border-2 border-ink font-bold">
-          <Link href="/">Voir le site</Link>
-        </Button>
+        <Link
+          href="/"
+          className="inline-flex items-center justify-center rounded-full border-2 border-ink px-4 py-2 text-sm font-bold shadow-[3px_3px_0_0_var(--ink)] hover:bg-muted"
+        >
+          Voir le site
+        </Link>
       </div>
       <AdminDashboard stats={stats} />
     </>
