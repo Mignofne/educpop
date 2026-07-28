@@ -17,6 +17,7 @@ export function getDemoDashboardStats(): DashboardStats {
 
   return {
     isDemo: true,
+    setupState: "demo",
     period: { days7: true, days30: true },
     kpis: {
       visitors7d: 412,

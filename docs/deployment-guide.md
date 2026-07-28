@@ -20,18 +20,35 @@
 
 ### Base de données (stats admin + leads)
 
-Après avoir configuré `DATABASE_URL` sur Vercel, exécuter une fois en local (ou via CI) :
-
-```bash
-node scripts/create-analytics-table.mjs
-```
-
-Ce script crée / met à jour :
+Tables créées par `pnpm db:setup` (alias `node scripts/create-analytics-table.mjs`) :
 
 - `analytics_event` — événements first-party (pages, filtres, téléchargements)
 - `download_lead` — emails capturés au gate de téléchargement (+ `ageBand`, `newsletterOptIn`)
 
-Sans ces tables, le dashboard admin affiche des **données de démo**. Dès qu’au moins un événement analytics ou un lead existe, les stats réelles s’affichent.
+### Activer stats prod (5 min)
+
+1. **Créer une base Neon** (gratuit) : [neon.tech](https://neon.tech) → New Project → copier la connection string **pooled** (`postgresql://…?sslmode=require`).
+2. **Vercel** → Project → Settings → Environment Variables → ajouter `DATABASE_URL` (Production + Preview) avec cette URL.
+3. **Redéployer** le projet (Deployments → … → Redeploy).
+4. **Créer les tables** — une fois, en local avec la même URL :
+   ```bash
+   # PowerShell
+   $env:DATABASE_URL="postgresql://..."; pnpm db:setup
+
+   # bash
+   DATABASE_URL="postgresql://..." pnpm db:setup
+   ```
+   Équivalent : `node scripts/create-analytics-table.mjs` (charge `.env` si présent).
+5. **Optionnel — données de test** : `pnpm db:seed-analytics` (local, même `DATABASE_URL`).
+
+**Comportement du dashboard :**
+
+| Situation | Affichage |
+|-----------|-----------|
+| Pas de `DATABASE_URL` | Mode démo (chiffres fictifs) |
+| `DATABASE_URL` OK, tables absentes | Zéros + bannière « tables manquantes » + commande `pnpm db:setup` |
+| Base OK, aucun événement | Zéros réels + « Aucune donnée encore » |
+| Événements collectés | Stats réelles |
 
 **Back-office :**
 

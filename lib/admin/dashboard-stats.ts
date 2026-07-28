@@ -9,6 +9,15 @@ import {
   type AgeGroup,
 } from "@/lib/activities"
 import { getDemoDashboardStats } from "./demo-stats"
+import { getEmptyDashboardStats, getNeedsMigrationDashboardStats } from "./empty-stats"
+
+function isMissingTableError(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false
+  const code = "code" in err ? String((err as { code: unknown }).code) : ""
+  if (code === "42P01") return true
+  const message = err instanceof Error ? err.message : String(err)
+  return /relation .* does not exist/i.test(message)
+}
 
 export type RankedItem = { label: string; value: string; count: number }
 
@@ -26,8 +35,12 @@ export type DailyTrend = {
   downloads: number
 }
 
+export type DashboardSetupState = "demo" | "needs_migration" | "empty" | "live"
+
 export type DashboardStats = {
   isDemo: boolean
+  /** demo = no DATABASE_URL; needs_migration = tables missing; empty = connected, no events yet; live = real data */
+  setupState: DashboardSetupState
   period: { days7: boolean; days30: boolean }
   kpis: {
     visitors7d: number
@@ -312,13 +325,21 @@ async function downloadLeadsSince(since: Date): Promise<number> {
 export async function getDashboardStats(): Promise<DashboardStats> {
   if (!db) return getDemoDashboardStats()
 
-  const [totalEvents, totalLeads] = await Promise.all([
-    db.select({ n: count() }).from(analyticsEvent),
-    db.select({ n: count() }).from(downloadLead),
-  ])
-  const hasProductionData =
+  let totalEvents: { n: number }[]
+  let totalLeads: { n: number }[]
+  try {
+    ;[totalEvents, totalLeads] = await Promise.all([
+      db.select({ n: count() }).from(analyticsEvent),
+      db.select({ n: count() }).from(downloadLead),
+    ])
+  } catch (err) {
+    if (isMissingTableError(err)) return getNeedsMigrationDashboardStats()
+    throw err
+  }
+
+  const hasEvents =
     Number(totalEvents[0]?.n ?? 0) > 0 || Number(totalLeads[0]?.n ?? 0) > 0
-  if (!hasProductionData) return getDemoDashboardStats()
+  if (!hasEvents) return getEmptyDashboardStats()
 
   const since7 = daysAgo(7)
   const since30 = daysAgo(30)
@@ -376,6 +397,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
 
   return {
     isDemo: false,
+    setupState: "live",
     period: { days7: true, days30: true },
     kpis: {
       visitors7d,

@@ -16,12 +16,37 @@ export function AdminDashboard({ stats }: { stats: DashboardStats }) {
 
   return (
     <div className="space-y-8">
-      {stats.isDemo && (
+      {stats.setupState === "demo" && (
         <div className="rounded-2xl border-4 border-dashed border-tangerine bg-tangerine/10 px-4 py-3 text-sm font-semibold text-foreground">
-          Mode démo — configurez <code className="rounded bg-background px-1">DATABASE_URL</code> sur Vercel
-          et exécutez{" "}
-          <code className="rounded bg-background px-1">node scripts/create-analytics-table.mjs</code>{" "}
-          pour activer les stats de production. Les données affichées sont fictives.
+          Mode démo — <code className="rounded bg-background px-1">DATABASE_URL</code> non configuré.
+          Ajoutez une base Postgres (Neon) sur Vercel pour activer les stats de production.
+          Les données affichées sont fictives. Voir{" "}
+          <code className="rounded bg-background px-1">docs/deployment-guide.md</code> → « Activer stats prod ».
+        </div>
+      )}
+      {stats.setupState === "needs_migration" && (
+        <div className="rounded-2xl border-4 border-dashed border-tangerine bg-tangerine/10 px-4 py-3 text-sm font-semibold text-foreground">
+          Base connectée — tables analytics manquantes. Exécutez une fois en local avec votre{" "}
+          <code className="rounded bg-background px-1">DATABASE_URL</code> Neon :
+          <br />
+          <code className="mt-2 inline-block rounded bg-background px-1">
+            pnpm db:setup
+          </code>{" "}
+          ou{" "}
+          <code className="rounded bg-background px-1">
+            node scripts/create-analytics-table.mjs
+          </code>
+          <br />
+          Puis redéployez si besoin. Les indicateurs affichent des zéros réels (pas de données fictives).
+        </div>
+      )}
+      {stats.setupState === "empty" && (
+        <div className="rounded-2xl border-4 border-dashed border-sky bg-sky/10 px-4 py-3 text-sm font-semibold text-foreground">
+          Aucune donnée encore — naviguez sur le site pour collecter des événements (pages vues, filtres,
+          téléchargements). Les indicateurs affichent des zéros réels.
+          <br />
+          Optionnel : <code className="rounded bg-background px-1">pnpm db:seed-analytics</code> pour des
+          données de test.
         </div>
       )}
 
