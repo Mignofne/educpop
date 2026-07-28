@@ -1,5 +1,5 @@
 import { and, count, desc, eq, gte, sql } from "drizzle-orm"
-import { db } from "@/lib/db"
+import { getDb } from "@/lib/db"
 import { analyticsEvent, downloadLead, user } from "@/lib/db/schema"
 import {
   AGE_LABELS,
@@ -90,7 +90,7 @@ function activityTitle(slug: string): string {
 }
 
 async function countEventsSince(eventType: string, since: Date): Promise<number> {
-  const row = await db!
+  const row = await getDb()!
     .select({ n: count() })
     .from(analyticsEvent)
     .where(and(eq(analyticsEvent.eventType, eventType), gte(analyticsEvent.createdAt, since)))
@@ -98,7 +98,7 @@ async function countEventsSince(eventType: string, since: Date): Promise<number>
 }
 
 async function countDistinctSessionsSince(since: Date): Promise<number> {
-  const row = await db!
+  const row = await getDb()!
     .select({ n: sql<number>`count(distinct ${analyticsEvent.sessionId})` })
     .from(analyticsEvent)
     .where(and(eq(analyticsEvent.eventType, "page_view"), gte(analyticsEvent.createdAt, since)))
@@ -106,7 +106,7 @@ async function countDistinctSessionsSince(since: Date): Promise<number> {
 }
 
 async function bounceRateSince(since: Date): Promise<number> {
-  const rows = await db!
+  const rows = await getDb()!
     .select({
       sessionId: analyticsEvent.sessionId,
       views: count(),
@@ -125,7 +125,7 @@ async function topFilterValues(
   since: Date,
   labelMap: Record<string, string>,
 ): Promise<RankedItem[]> {
-  const rows = await db!
+  const rows = await getDb()!
     .select({
       value: sql<string>`${analyticsEvent.properties}->>'value'`,
       n: count(),
@@ -152,7 +152,7 @@ async function topFilterValues(
 }
 
 async function topAgesSince(since: Date): Promise<RankedItem[]> {
-  const fromFilter = await db!
+  const fromFilter = await getDb()!
     .select({
       value: sql<string>`${analyticsEvent.properties}->>'value'`,
       n: count(),
@@ -167,7 +167,7 @@ async function topAgesSince(since: Date): Promise<RankedItem[]> {
     )
     .groupBy(sql`${analyticsEvent.properties}->>'value'`)
 
-  const fromAgeSelect = await db!
+  const fromAgeSelect = await getDb()!
     .select({
       value: sql<string>`${analyticsEvent.properties}->>'age'`,
       n: count(),
@@ -193,7 +193,7 @@ async function topAgesSince(since: Date): Promise<RankedItem[]> {
 }
 
 async function topActivityStats(since: Date): Promise<TopActivity[]> {
-  const downloadRows = await db!
+  const downloadRows = await getDb()!
     .select({
       slug: sql<string>`${analyticsEvent.properties}->>'activitySlug'`,
       n: count(),
@@ -204,7 +204,7 @@ async function topActivityStats(since: Date): Promise<TopActivity[]> {
     .orderBy(desc(count()))
     .limit(10)
 
-  const viewRows = await db!
+  const viewRows = await getDb()!
     .select({
       slug: sql<string>`replace(${analyticsEvent.path}, '/activites/', '')`,
       n: count(),
@@ -245,7 +245,7 @@ async function topActivityStats(since: Date): Promise<TopActivity[]> {
 }
 
 async function topPagesSince(since: Date): Promise<{ path: string; views: number }[]> {
-  const rows = await db!
+  const rows = await getDb()!
     .select({
       path: analyticsEvent.path,
       n: count(),
@@ -263,7 +263,7 @@ async function topPagesSince(since: Date): Promise<{ path: string; views: number
 
 async function dailyTrendSince(days: number): Promise<DailyTrend[]> {
   const since = daysAgo(days)
-  const pageRows = await db!
+  const pageRows = await getDb()!
     .select({
       date: sql<string>`to_char(${analyticsEvent.createdAt}, 'YYYY-MM-DD')`,
       n: count(),
@@ -272,7 +272,7 @@ async function dailyTrendSince(days: number): Promise<DailyTrend[]> {
     .where(and(eq(analyticsEvent.eventType, "page_view"), gte(analyticsEvent.createdAt, since)))
     .groupBy(sql`to_char(${analyticsEvent.createdAt}, 'YYYY-MM-DD')`)
 
-  const visitorRows = await db!
+  const visitorRows = await getDb()!
     .select({
       date: sql<string>`to_char(${analyticsEvent.createdAt}, 'YYYY-MM-DD')`,
       n: sql<number>`count(distinct ${analyticsEvent.sessionId})`,
@@ -281,7 +281,7 @@ async function dailyTrendSince(days: number): Promise<DailyTrend[]> {
     .where(and(eq(analyticsEvent.eventType, "page_view"), gte(analyticsEvent.createdAt, since)))
     .groupBy(sql`to_char(${analyticsEvent.createdAt}, 'YYYY-MM-DD')`)
 
-  const downloadRows = await db!
+  const downloadRows = await getDb()!
     .select({
       date: sql<string>`to_char(${analyticsEvent.createdAt}, 'YYYY-MM-DD')`,
       n: count(),
@@ -315,7 +315,7 @@ async function dailyTrendSince(days: number): Promise<DailyTrend[]> {
 }
 
 async function downloadLeadsSince(since: Date): Promise<number> {
-  const row = await db!
+  const row = await getDb()!
     .select({ n: count() })
     .from(downloadLead)
     .where(gte(downloadLead.createdAt, since))
@@ -323,6 +323,7 @@ async function downloadLeadsSince(since: Date): Promise<number> {
 }
 
 export async function getDashboardStats(): Promise<DashboardStats> {
+  const db = getDb()
   if (!db) return getDemoDashboardStats()
 
   let totalEvents: { n: number }[]

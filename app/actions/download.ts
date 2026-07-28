@@ -1,6 +1,6 @@
 "use server"
 
-import { db } from "@/lib/db"
+import { getDb } from "@/lib/db"
 import { downloadLead } from "@/lib/db/schema"
 import { getSession } from "@/lib/auth"
 import { recordAnalyticsEvent } from "@/lib/analytics/server"
@@ -23,6 +23,7 @@ export async function registerDownload(formData: FormData) {
   const session = await getSession()
   const userId = session?.user?.id ?? null
 
+  const db = getDb()
   if (db) {
     try {
       await db.insert(downloadLead).values({

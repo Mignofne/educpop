@@ -1,5 +1,5 @@
 import { desc } from "drizzle-orm"
-import { db } from "@/lib/db"
+import { getDb } from "@/lib/db"
 import { downloadLead } from "@/lib/db/schema"
 import { AGE_LABELS, activities, type AgeGroup } from "@/lib/activities"
 
@@ -24,6 +24,7 @@ function ageLabel(band: string | null): string | null {
 }
 
 export async function getDownloadLeads(): Promise<DownloadLeadRow[]> {
+  const db = getDb()
   if (!db) return []
 
   const rows = await db

@@ -1,4 +1,4 @@
-import { db } from "@/lib/db"
+import { getDb } from "@/lib/db"
 import { analyticsEvent } from "@/lib/db/schema"
 import type { AnalyticsEventPayload } from "./types"
 import { ANALYTICS_EVENT_TYPES } from "./types"
@@ -8,6 +8,7 @@ export function isValidEventType(value: string): value is AnalyticsEventPayload[
 }
 
 export async function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
+  const db = getDb()
   if (!db) return false
 
   try {
