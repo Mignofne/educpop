@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { isAdminAuthenticated, getAdminSecret } from "@/lib/admin/auth"
 import { AdminDashboard } from "@/components/admin/dashboard"
 import { getDashboardStats } from "@/lib/admin/dashboard-stats"
+import { ensureAppSchema } from "@/lib/db/ensure-schema"
 
 export const dynamic = "force-dynamic"
 
@@ -26,6 +27,9 @@ export default async function AdminDashboardPage() {
   if (!(await isAdminAuthenticated())) {
     redirect("/admin/login")
   }
+
+  // One-click / automatic: create missing tables (no PowerShell / Neon SQL needed)
+  await ensureAppSchema()
 
   const stats = await getDashboardStats()
 

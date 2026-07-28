@@ -2,6 +2,7 @@ import Link from "next/link"
 import type { DashboardStats, RankedItem } from "@/lib/admin/dashboard-stats"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+import { SetupDbButton } from "@/components/admin/setup-db-button"
 
 function pct(n: number): string {
   return `${(n * 100).toFixed(1)} %`
@@ -26,18 +27,10 @@ export function AdminDashboard({ stats }: { stats: DashboardStats }) {
       )}
       {stats.setupState === "needs_migration" && (
         <div className="rounded-2xl border-4 border-dashed border-tangerine bg-tangerine/10 px-4 py-3 text-sm font-semibold text-foreground">
-          Base connectée — tables analytics manquantes. Exécutez une fois en local avec votre{" "}
-          <code className="rounded bg-background px-1">DATABASE_URL</code> Neon :
+          Base connectée — il manque encore les tables.
           <br />
-          <code className="mt-2 inline-block rounded bg-background px-1">
-            pnpm db:setup
-          </code>{" "}
-          ou{" "}
-          <code className="rounded bg-background px-1">
-            node scripts/create-analytics-table.mjs
-          </code>
-          <br />
-          Puis redéployez si besoin. Les indicateurs affichent des zéros réels (pas de données fictives).
+          Cliquez une seule fois ci-dessous (rien à faire dans Neon ni en ligne de commande) :
+          <SetupDbButton />
         </div>
       )}
       {stats.setupState === "empty" && (
