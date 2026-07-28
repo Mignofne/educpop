@@ -1,8 +1,8 @@
+import Image from "next/image"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { ActivityCard } from "@/components/activity-card"
-import { HeroCollage } from "@/components/hero-collage"
 import { Button } from "@/components/ui/button"
 import { Blob, Dots, Squiggle } from "@/components/decor"
 import { activities, THEME_LABELS, type Theme } from "@/lib/activities"
@@ -67,7 +67,16 @@ export default function HomePage() {
             </div>
 
             <div className="relative">
-              <HeroCollage />
+              <div className="overflow-hidden rounded-[2rem] border-4 border-ink shadow-[8px_8px_0_0_var(--ink)]">
+                <Image
+                  src="/hero-collage.png"
+                  alt="Collage coloré d'illustrations joyeuses inspirées d'Hervé Tullet"
+                  width={720}
+                  height={720}
+                  className="h-full w-full object-cover"
+                  priority
+                />
+              </div>
               <Dots color="berry" className="absolute -bottom-6 -left-6 h-14 w-40" />
             </div>
           </div>
