@@ -69,3 +69,13 @@ export const generation = pgTable("generation", {
   content: jsonb("content").notNull(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
 })
+
+/** First-party analytics events (catalogue filters, downloads, page views). */
+export const analyticsEvent = pgTable("analytics_event", {
+  id: serial("id").primaryKey(),
+  eventType: text("eventType").notNull(),
+  sessionId: text("sessionId").notNull(),
+  path: text("path"),
+  properties: jsonb("properties").$type<Record<string, string | number | boolean | null>>(),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+})

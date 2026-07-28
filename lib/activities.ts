@@ -938,7 +938,7 @@ export const activities: Activity[] = [
       "Sapin, étoile et cadeaux : coloriage, nomenclature, chemin, écriture, associations et fête à ordonner.",
     type: "pack",
     ages: ["4-5"],
-    themes: ["saisons"],
+    themes: [],
     season: "hiver",
     color: "berry",
     emojiFree: true,

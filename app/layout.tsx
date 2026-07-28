@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Caveat, Fredoka, Nunito } from 'next/font/google'
+import { AnalyticsPageView } from '@/components/analytics-page-view'
 import './globals.css'
 
 const fredoka = Fredoka({
@@ -59,6 +60,7 @@ export default function RootLayout({
     >
       <body className="antialiased">
         {children}
+        <AnalyticsPageView />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

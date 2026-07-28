@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { registerDownload } from "@/app/actions/download"
+import { getAnalyticsSessionId } from "@/lib/analytics/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -34,6 +35,7 @@ export function DownloadGate({ activitySlug }: { activitySlug: string }) {
     const fd = new FormData()
     fd.set("email", email)
     fd.set("activitySlug", activitySlug)
+    fd.set("sessionId", getAnalyticsSessionId())
     startTransition(async () => {
       const res = await registerDownload(fd)
       if (!res.ok) {

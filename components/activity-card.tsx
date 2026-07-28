@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { type Activity, AGE_LABELS, THEME_LABELS } from "@/lib/activities"
+import { type Activity, AGE_LABELS, THEME_LABELS, SEASON_LABELS } from "@/lib/activities"
 import { cn } from "@/lib/utils"
 
 const COLOR_BG = {
@@ -52,14 +52,20 @@ export function ActivityCard({ activity }: { activity: Activity }) {
               {AGE_LABELS[age]}
             </span>
           ))}
-          {activity.themes.slice(0, 1).map((theme) => (
-            <span
-              key={theme}
-              className="rounded-full border-2 border-ink px-2 py-0.5 text-xs font-semibold text-foreground"
-            >
-              {THEME_LABELS[theme]}
+          {activity.themes.length > 0 ? (
+            activity.themes.slice(0, 1).map((theme) => (
+              <span
+                key={theme}
+                className="rounded-full border-2 border-ink px-2 py-0.5 text-xs font-semibold text-foreground"
+              >
+                {THEME_LABELS[theme]}
+              </span>
+            ))
+          ) : (
+            <span className="rounded-full border-2 border-ink px-2 py-0.5 text-xs font-semibold text-foreground">
+              {SEASON_LABELS[activity.season]}
             </span>
-          ))}
+          )}
         </div>
       </div>
     </Link>

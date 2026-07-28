@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
+import { trackEvent } from "@/lib/analytics/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -34,6 +35,8 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
       setError(error.message ?? "Une erreur est survenue")
       return
     }
+
+    if (isSignUp) trackEvent("signup")
 
     router.push("/")
     router.refresh()

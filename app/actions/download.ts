@@ -3,6 +3,7 @@
 import { db } from "@/lib/db"
 import { downloadLead } from "@/lib/db/schema"
 import { getSession } from "@/lib/auth"
+import { recordAnalyticsEvent } from "@/lib/analytics/server"
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -27,6 +28,13 @@ export async function registerDownload(formData: FormData) {
       // Allow download even if lead storage fails (e.g. DB not configured yet)
     }
   }
+
+  await recordAnalyticsEvent({
+    eventType: "download",
+    sessionId: String(formData.get("sessionId") ?? "server"),
+    path: `/activites/${activitySlug}`,
+    properties: { activitySlug },
+  })
 
   return { ok: true as const }
 }

@@ -13,6 +13,7 @@ import {
   type Season,
 } from "@/lib/activities"
 import { cn } from "@/lib/utils"
+import { trackEvent } from "@/lib/analytics/client"
 
 type Filters = {
   age: AgeGroup | "all"
@@ -32,6 +33,17 @@ export function LibraryBrowser() {
     }
   }, [searchParams])
 
+  const setFilter = (filterType: "age" | "theme" | "season", value: string) => {
+    if (value !== "all") {
+      trackEvent("filter_use", { filterType, value })
+      if (filterType === "age") trackEvent("age_select", { age: value })
+    }
+    setFilters((f) => ({
+      ...f,
+      [filterType]: value as Filters[typeof filterType],
+    }))
+  }
+
   const results = useMemo(() => {
     return activities.filter((a) => {
       if (filters.age !== "all" && !a.ages.includes(filters.age)) return false
@@ -46,36 +58,36 @@ export function LibraryBrowser() {
     <div>
       <div className="flex flex-col gap-5 rounded-3xl border-4 border-ink bg-card p-5 shadow-[5px_5px_0_0_var(--ink)]">
         <FilterRow label="Âge">
-          <Chip active={filters.age === "all"} onClick={() => setFilters((f) => ({ ...f, age: "all" }))}>
+          <Chip active={filters.age === "all"} onClick={() => setFilter("age", "all")}>
             Tous
           </Chip>
           {(Object.keys(AGE_LABELS) as AgeGroup[]).map((age) => (
-            <Chip key={age} active={filters.age === age} onClick={() => setFilters((f) => ({ ...f, age }))}>
+            <Chip key={age} active={filters.age === age} onClick={() => setFilter("age", age)}>
               {AGE_LABELS[age]}
             </Chip>
           ))}
         </FilterRow>
 
         <FilterRow label="Thème">
-          <Chip active={filters.theme === "all"} onClick={() => setFilters((f) => ({ ...f, theme: "all" }))}>
+          <Chip active={filters.theme === "all"} onClick={() => setFilter("theme", "all")}>
             Tous
           </Chip>
           {(Object.keys(THEME_LABELS) as Theme[]).map((theme) => (
-            <Chip key={theme} active={filters.theme === theme} onClick={() => setFilters((f) => ({ ...f, theme }))}>
+            <Chip key={theme} active={filters.theme === theme} onClick={() => setFilter("theme", theme)}>
               {THEME_LABELS[theme]}
             </Chip>
           ))}
         </FilterRow>
 
         <FilterRow label="Saison">
-          <Chip active={filters.season === "all"} onClick={() => setFilters((f) => ({ ...f, season: "all" }))}>
+          <Chip active={filters.season === "all"} onClick={() => setFilter("season", "all")}>
             Toutes
           </Chip>
           {(Object.keys(SEASON_LABELS) as Season[]).map((season) => (
             <Chip
               key={season}
               active={filters.season === season}
-              onClick={() => setFilters((f) => ({ ...f, season }))}
+              onClick={() => setFilter("season", season)}
             >
               {SEASON_LABELS[season]}
             </Chip>
