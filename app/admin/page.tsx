@@ -4,6 +4,8 @@ import { isAdminAuthenticated, getAdminSecret } from "@/lib/admin/auth"
 import { AdminDashboard } from "@/components/admin/dashboard"
 import { getDashboardStats } from "@/lib/admin/dashboard-stats"
 
+export const dynamic = "force-dynamic"
+
 export const metadata = {
   title: "Tableau de bord",
   robots: { index: false, follow: false },

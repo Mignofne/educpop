@@ -22,8 +22,14 @@
 
 Tables créées par `pnpm db:setup` (alias `node scripts/create-analytics-table.mjs`) :
 
+- Better Auth : `user`, `session`, `account`, `verification` (obligatoires dès que `DATABASE_URL` est set)
 - `analytics_event` — événements first-party (pages, filtres, téléchargements)
 - `download_lead` — emails capturés au gate de téléchargement (+ `ageBand`, `newsletterOptIn`)
+
+Variables auth (recommandées en prod avec DB) :
+
+- `BETTER_AUTH_SECRET` — secret long aléatoire (sinon auth désactivée, le site reste consultable)
+- `BETTER_AUTH_URL` — URL publique du site (ex. `https://educpop.vercel.app`)
 
 ### Activer stats prod (5 min)
 

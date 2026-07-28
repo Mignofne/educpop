@@ -322,113 +322,130 @@ async function downloadLeadsSince(since: Date): Promise<number> {
   return Number(row[0]?.n ?? 0)
 }
 
+async function safeUserCounts(
+  db: NonNullable<ReturnType<typeof getDb>>,
+  since7: Date,
+  since30: Date,
+): Promise<{ subscribers: number; users7d: number; users30d: number }> {
+  try {
+    const [subscribers, users7d, users30d] = await Promise.all([
+      db.select({ n: count() }).from(user).where(eq(user.isSubscribed, true)),
+      db.select({ n: count() }).from(user).where(gte(user.createdAt, since7)),
+      db.select({ n: count() }).from(user).where(gte(user.createdAt, since30)),
+    ])
+    return {
+      subscribers: Number(subscribers[0]?.n ?? 0),
+      users7d: Number(users7d[0]?.n ?? 0),
+      users30d: Number(users30d[0]?.n ?? 0),
+    }
+  } catch (err) {
+    if (isMissingTableError(err)) return { subscribers: 0, users7d: 0, users30d: 0 }
+    throw err
+  }
+}
+
 export async function getDashboardStats(): Promise<DashboardStats> {
   const db = getDb()
   if (!db) return getDemoDashboardStats()
 
-  let totalEvents: { n: number }[]
-  let totalLeads: { n: number }[]
   try {
-    ;[totalEvents, totalLeads] = await Promise.all([
+    const [totalEvents, totalLeads] = await Promise.all([
       db.select({ n: count() }).from(analyticsEvent),
       db.select({ n: count() }).from(downloadLead),
     ])
-  } catch (err) {
-    if (isMissingTableError(err)) return getNeedsMigrationDashboardStats()
-    throw err
-  }
 
-  const hasEvents =
-    Number(totalEvents[0]?.n ?? 0) > 0 || Number(totalLeads[0]?.n ?? 0) > 0
-  if (!hasEvents) return getEmptyDashboardStats()
+    const hasEvents =
+      Number(totalEvents[0]?.n ?? 0) > 0 || Number(totalLeads[0]?.n ?? 0) > 0
+    if (!hasEvents) return getEmptyDashboardStats()
 
-  const since7 = daysAgo(7)
-  const since30 = daysAgo(30)
+    const since7 = daysAgo(7)
+    const since30 = daysAgo(30)
 
-  const [
-    pageViews7d,
-    pageViews30d,
-    visitors7d,
-    visitors30d,
-    downloads7dEvents,
-    downloads30dEvents,
-    bounce7d,
-    bounce30d,
-    signups7d,
-    signups30d,
-    themes,
-    seasons,
-    topAges,
-    topActivities,
-    topPages,
-    dailyTrend,
-    leads7d,
-    leads30d,
-    subscribers,
-    users7d,
-    users30d,
-  ] = await Promise.all([
-    countEventsSince("page_view", since7),
-    countEventsSince("page_view", since30),
-    countDistinctSessionsSince(since7),
-    countDistinctSessionsSince(since30),
-    countEventsSince("download", since7),
-    countEventsSince("download", since30),
-    bounceRateSince(since7),
-    bounceRateSince(since30),
-    countEventsSince("signup", since7),
-    countEventsSince("signup", since30),
-    topFilterValues("theme", since30, THEME_LABELS as Record<string, string>),
-    topFilterValues("season", since30, SEASON_LABELS as Record<string, string>),
-    topAgesSince(since30),
-    topActivityStats(since30),
-    topPagesSince(since30),
-    dailyTrendSince(14),
-    downloadLeadsSince(since7),
-    downloadLeadsSince(since30),
-    db.select({ n: count() }).from(user).where(eq(user.isSubscribed, true)),
-    db.select({ n: count() }).from(user).where(gte(user.createdAt, since7)),
-    db.select({ n: count() }).from(user).where(gte(user.createdAt, since30)),
-  ])
-
-  const downloads7d = Math.max(downloads7dEvents, leads7d)
-  const downloads30d = Math.max(downloads30dEvents, leads30d)
-  const newSignups7d = Math.max(signups7d, Number(users7d[0]?.n ?? 0))
-  const newSignups30d = Math.max(signups30d, Number(users30d[0]?.n ?? 0))
-
-  return {
-    isDemo: false,
-    setupState: "live",
-    period: { days7: true, days30: true },
-    kpis: {
-      visitors7d,
-      visitors30d,
-      sessions7d: visitors7d,
-      sessions30d: visitors30d,
+    const [
       pageViews7d,
       pageViews30d,
-      bounceRate7d: bounce7d,
-      bounceRate30d: bounce30d,
-      conversionSignup7d: visitors7d > 0 ? newSignups7d / visitors7d : 0,
-      conversionSignup30d: visitors30d > 0 ? newSignups30d / visitors30d : 0,
-      conversionDownload7d: visitors7d > 0 ? downloads7d / visitors7d : 0,
-      conversionDownload30d: visitors30d > 0 ? downloads30d / visitors30d : 0,
-      downloads7d,
-      downloads30d,
-      impressions7d: pageViews7d,
-      impressions30d: pageViews30d,
-      activeSubscribers: Number(subscribers[0]?.n ?? 0),
-      newSignups7d,
-      newSignups30d,
-    },
-    topFilters: { themes, seasons },
-    topAges,
-    topActivities,
-    topPages,
-    dailyTrend,
-    vercelAnalytics: {
-      enabled: process.env.NODE_ENV === "production",
-      note: "Vercel Analytics actif en production. Ce tableau agrège les événements first-party (filtres, téléchargements, pages).",
-    },
+      visitors7d,
+      visitors30d,
+      downloads7dEvents,
+      downloads30dEvents,
+      bounce7d,
+      bounce30d,
+      signups7d,
+      signups30d,
+      themes,
+      seasons,
+      topAges,
+      topActivities,
+      topPages,
+      dailyTrend,
+      leads7d,
+      leads30d,
+      userCounts,
+    ] = await Promise.all([
+      countEventsSince("page_view", since7),
+      countEventsSince("page_view", since30),
+      countDistinctSessionsSince(since7),
+      countDistinctSessionsSince(since30),
+      countEventsSince("download", since7),
+      countEventsSince("download", since30),
+      bounceRateSince(since7),
+      bounceRateSince(since30),
+      countEventsSince("signup", since7),
+      countEventsSince("signup", since30),
+      topFilterValues("theme", since30, THEME_LABELS as Record<string, string>),
+      topFilterValues("season", since30, SEASON_LABELS as Record<string, string>),
+      topAgesSince(since30),
+      topActivityStats(since30),
+      topPagesSince(since30),
+      dailyTrendSince(14),
+      downloadLeadsSince(since7),
+      downloadLeadsSince(since30),
+      safeUserCounts(db, since7, since30),
+    ])
+
+    const downloads7d = Math.max(downloads7dEvents, leads7d)
+    const downloads30d = Math.max(downloads30dEvents, leads30d)
+    const newSignups7d = Math.max(signups7d, userCounts.users7d)
+    const newSignups30d = Math.max(signups30d, userCounts.users30d)
+
+    return {
+      isDemo: false,
+      setupState: "live",
+      period: { days7: true, days30: true },
+      kpis: {
+        visitors7d,
+        visitors30d,
+        sessions7d: visitors7d,
+        sessions30d: visitors30d,
+        pageViews7d,
+        pageViews30d,
+        bounceRate7d: bounce7d,
+        bounceRate30d: bounce30d,
+        conversionSignup7d: visitors7d > 0 ? newSignups7d / visitors7d : 0,
+        conversionSignup30d: visitors30d > 0 ? newSignups30d / visitors30d : 0,
+        conversionDownload7d: visitors7d > 0 ? downloads7d / visitors7d : 0,
+        conversionDownload30d: visitors30d > 0 ? downloads30d / visitors30d : 0,
+        downloads7d,
+        downloads30d,
+        impressions7d: pageViews7d,
+        impressions30d: pageViews30d,
+        activeSubscribers: userCounts.subscribers,
+        newSignups7d,
+        newSignups30d,
+      },
+      topFilters: { themes, seasons },
+      topAges,
+      topActivities,
+      topPages,
+      dailyTrend,
+      vercelAnalytics: {
+        enabled: process.env.NODE_ENV === "production",
+        note: "Vercel Analytics actif en production. Ce tableau agrège les événements first-party (filtres, téléchargements, pages).",
+      },
+    }
+  } catch (err) {
+    if (isMissingTableError(err)) return getNeedsMigrationDashboardStats()
+    console.error("[admin] getDashboardStats failed:", err)
+    return getNeedsMigrationDashboardStats()
   }
 }
