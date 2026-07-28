@@ -14,6 +14,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 
+function isMobileDevice(): boolean {
+  if (typeof navigator === "undefined") return false
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+}
+
 export function DownloadGate({
   activitySlug,
   ageBand,
@@ -28,47 +33,94 @@ export function DownloadGate({
   const [email, setEmail] = useState("")
   const [newsletterOptIn, setNewsletterOptIn] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [hint, setHint] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
 
   const handlePrimary = () => {
     if (unlocked) {
-      window.print()
+      try {
+        window.print()
+      } catch {
+        setHint(
+          "Sur mobile : utilisez le menu Partager → Imprimer, ou « Sur l’écran » / PDF.",
+        )
+      }
     } else {
       setOpen(true)
+      setError(null)
+      setHint(null)
     }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+    setHint(null)
     const fd = new FormData()
     fd.set("email", email)
     fd.set("activitySlug", activitySlug)
     fd.set("ageBand", ageBand)
     fd.set("newsletterOptIn", newsletterOptIn ? "1" : "0")
     fd.set("sessionId", getAnalyticsSessionId())
+
+    const safety = window.setTimeout(() => {
+      setError("La connexion est lente. Réessayez, ou vérifiez votre réseau.")
+    }, 12_000)
+
     startTransition(async () => {
-      const res = await registerDownload(fd)
-      if (!res.ok) {
-        setError(res.error)
-        return
+      try {
+        const res = await registerDownload(fd)
+        if (!res.ok) {
+          setError(res.error)
+          return
+        }
+        setUnlocked(true)
+        setOpen(false)
+
+        // iOS Safari: print() only works from a direct user gesture — not after await.
+        // On mobile, ask the user to tap the unlocked button instead.
+        if (isMobileDevice()) {
+          setHint(
+            "Pack débloqué ! Appuyez sur « Imprimer / Enregistrer en PDF », puis choisissez Imprimer ou Enregistrer en PDF.",
+          )
+        } else {
+          window.setTimeout(() => {
+            try {
+              window.print()
+            } catch {
+              /* ignore */
+            }
+          }, 250)
+        }
+      } catch {
+        // Still unlock — email capture must not block printing
+        setUnlocked(true)
+        setOpen(false)
+        setHint(
+          "Pack débloqué. Appuyez sur « Imprimer / Enregistrer en PDF » pour enregistrer le fichier.",
+        )
+      } finally {
+        window.clearTimeout(safety)
       }
-      setUnlocked(true)
-      setOpen(false)
-      // small delay so the dialog closes before the print dialog opens
-      setTimeout(() => window.print(), 250)
     })
   }
 
   return (
     <>
-      <Button
-        onClick={handlePrimary}
-        size="lg"
-        className="rounded-full border-2 border-ink bg-berry font-bold text-primary-foreground shadow-[4px_4px_0_0_var(--ink)] hover:bg-berry/90"
-      >
-        {unlocked ? "Imprimer / Enregistrer en PDF" : "Télécharger gratuitement"}
-      </Button>
+      <div className="flex flex-col items-start gap-2">
+        <Button
+          onClick={handlePrimary}
+          size="lg"
+          className="rounded-full border-2 border-ink bg-berry font-bold text-primary-foreground shadow-[4px_4px_0_0_var(--ink)] hover:bg-berry/90"
+        >
+          {unlocked ? "Imprimer / Enregistrer en PDF" : "Télécharger gratuitement"}
+        </Button>
+        {hint && (
+          <p className="max-w-md text-sm font-semibold text-foreground" role="status">
+            {hint}
+          </p>
+        )}
+      </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="rounded-[1.5rem] border-4 border-ink shadow-[6px_6px_0_0_var(--ink)]">
@@ -84,6 +136,8 @@ export function DownloadGate({
               <Input
                 id="dl-email"
                 type="email"
+                inputMode="email"
+                autoComplete="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -117,6 +171,7 @@ export function DownloadGate({
             </Button>
             <p className="text-center text-xs text-muted-foreground">
               Pas de spam. Désabonnement en un clic si vous cochez la newsletter.
+              Sur iPhone : après déblocage, utilisez Imprimer → Enregistrer en PDF.
             </p>
           </form>
         </DialogContent>
