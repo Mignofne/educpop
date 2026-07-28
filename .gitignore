@@ -26,3 +26,6 @@ exemples/
 
 # Specs IA générées localement (ne pas committer)
 output/livret-specs/*.json
+
+# TypeScript incremental build
+*.tsbuildinfo
