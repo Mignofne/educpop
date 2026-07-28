@@ -1,0 +1,16 @@
+---
+description: QA obligatoire des fiches imprimables educpop
+globs: "{components/worksheets,lib/worksheets}/**/*.{tsx,ts}"
+alwaysApply: false
+---
+
+# QA fiches — confiance contenu
+
+Avant de terminer toute modif de worksheet :
+
+1. Suivre la skill **educpop-worksheet-qa**
+2. Lancer `pnpm validate:worksheets`
+3. Syllabes : banque **dérivée** des trous (`lib/worksheets/syllable-puzzles.ts` + `missingSyllables`) — jamais une banque hardcodée désynchronisée
+4. Interdit : emoji · placeholder « illustration » · parts.join ≠ mot · trou sans syllabe en banque
+
+Docs : `docs/activity-formats.md`, `docs/visual-standard-worksheets.md`

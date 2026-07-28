@@ -1,0 +1,46 @@
+# educpop
+
+> Activités pédagogiques joyeuses à imprimer pour apprendre ensemble (inspiration instruction en famille).
+
+**Baseline :** Grandir et faire grandir, un moment joyeux à la fois.
+
+Fiches gratuites (email requis) · génération de thèmes IA sur abonnement (prévu).
+
+Contenus **déclinés par âge** : 2–3 · 4–5 · 6–7 · 8–10 (même thème ≠ mêmes pages).
+
+## Thèmes
+
+- Saisons (printemps, été, automne, hiver)
+- Animaux
+- Botanique
+- Continents & géographie
+- Histoire
+- Lecture & écriture
+
+## Types d'activités
+
+- Packs multi-pages thématiques (ex. tournesols × âge)
+- Anatomie (schéma + cartes à découper)
+- Roue des saisons
+- Tracés et chemins
+- Cartes de nomenclature / vocabulaire
+- Mots à trous (syllabes en majuscules)
+- Écriture majuscules + cursive
+- Symétrie, coloriage
+
+## Tranches d'âge
+
+2-3 ans | 4-5 ans | 6-7 ans | 8-10 ans
+
+## Pages principales
+
+- Accueil: /
+- Bibliothèque: /bibliotheque
+- Fiche / pack: /activites/{slug}
+- Blog: /blog
+- Génération IA: /generer (abonnement)
+- Abonnement: /abonnement
+
+## Contact & site
+
+https://educpop.fr

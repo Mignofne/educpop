@@ -1,0 +1,28 @@
+# v0 sandbox internal files
+__v0_runtime_loader.js
+__v0_devtools.tsx
+__v0_jsx-dev-runtime.ts
+.snowflake/
+.v0-trash/
+.vercel/
+
+# Environment variables
+.env*.local
+.env
+
+# Common ignores
+node_modules
+.next/
+.DS_Store
+
+# BMAD — generated / personal (keep _bmad/ and .agents/skills in git)
+_bmad-output/
+_bmad/config.user.toml
+_bmad/custom/config.user.toml
+
+# PDF d'inspiration tiers (poids + copyright) — garder en local uniquement
+exemples/
+*.pdf
+
+# Specs IA générées localement (ne pas committer)
+output/livret-specs/*.json

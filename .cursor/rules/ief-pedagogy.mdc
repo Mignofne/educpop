@@ -1,0 +1,24 @@
+---
+description: Inspiration pédagogique famille + déclinaison par âge + formats
+globs: "{app,components,lib,docs}/**/*.{tsx,ts,md}"
+alwaysApply: true
+---
+
+# Pédagogie educpop (inspiration)
+
+Lire `docs/ief-standard.md` et **`docs/activity-formats.md`** (matrice des formats).
+
+## Essentiel
+
+- Moment partagé parent + enfant ; observation du réel ; vocabulaire juste
+- **Déclinaison par âge obligatoire** : 2–3 ≠ 4–5 ≠ 6–7 ≠ 8–10 (difficulté, pages, consignes, **formats**)
+- Formats cœur : 4–5 cycle **rond + étiquettes** · 8–10 **mots croisés / fléchés / vrai-faux**
+- **Pack = 5 à 8 activités** (hors couverture) — voir `docs/activity-formats.md`
+- **Catalogue = packs uniquement** — pas de fiche solo (anatomie, drapeaux…) en bibliothèque
+- Syllabes en **MAJUSCULES** ; écriture = majuscules + **cursive** (dès 4–5)
+- Anatomie : parties **spécifiques** + « Le savais-tu ? » adapté à l’âge
+- Style : `docs/visual-standard-worksheets.md`
+
+## Interdit
+
+Label marketing « IEF » sur les fiches · contenu générique tous-âges · même pack 4–5 recopié en 8–10 · ton scolaire punitif · fiches pédagogiques solo au catalogue · **pack fourre-tout « Les animaux »** (papillon / serpent / coccinelle = thèmes dédiés)

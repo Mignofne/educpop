@@ -1,0 +1,32 @@
+---
+description: Livrets co-schooling — formats, encart pédagogique, référence abeilles
+globs: "{components/worksheets/livret/**,components/worksheets/pack-livret-*,lib/livret/**,docs/**/livret*,docs/prompts/livret-pedagogique.md}"
+alwaysApply: false
+---
+
+# Pédagogie livret educpop
+
+Lire **`docs/livret-standard.md`** (source de vérité) et **`docs/prompts/livret-pedagogique.md`** (prompt IA).
+
+## Essentiel
+
+- **5 à 8 activités** en v1 (souvent 8 dès 2–3+) — pas de couverture / intro / clôture séparées
+- Slug **`pack-livret-<theme>-<age>`** · `pageCount` catalogue = nombre d’activités (5–8)
+- **Formats différents** par tranche : **1–2** oral/sensoriel (nomenclature oral, coloriage, couleurs, son, tri 2 couleurs, même/différent) · 2–3+ selon matrices
+- Consignes **courtes**, langage enfant (pas de `→`, pas de jargon)
+- Encart bas via **`LivretActivityFrame`** : **Le savais-tu ?** (`fact` / `hypothesis` / `uncertain`) + **1 question à discuter** — pas de page parents séparée
+- Référence : **`pack-livret-abeilles-1-2.tsx`** (1–2) · **`pack-livret-abeilles.tsx`** (6–7)
+
+## Visuel
+
+- Pictos educpop **outline** (pas de primitives seules)
+- Nomenclature : **8 photos Commons** + `CREDITS.md` · `LivretNomenclatureGrid`
+- Frises / séquences : cartes **mélangées** (ordre fixe en code)
+- Mots croisés : **vrais croisements** · coloriage codé : légende séparée + scène pictos
+- Pas d’emoji · pas de label « IEF » sur le produit
+
+## Interdit
+
+- Livret fourre-tout sans 8 formats distincts · même contenu 4–5 recopié en 8–10
+- Page parents dédiée par activité en v1 · consignes longues type devoir scolaire
+- Images IA floues · nomenclature sans crédits Commons

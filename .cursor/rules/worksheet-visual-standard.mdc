@@ -1,0 +1,22 @@
+---
+description: Standard visuel fiches imprimables educpop (Hervé Tullet / arty pop)
+globs: components/worksheets/**/*
+alwaysApply: false
+---
+
+# Fiches imprimables — standard obligatoire
+
+Lire et respecter `docs/visual-standard-worksheets.md`.
+
+## Règles rapides
+
+- Inspiration **Hervé Tullet** : formes simples, traits épais, couleurs flat brand (`sun` `berry` `sky` `leaf` `tangerine` `ink`)
+- **Interdit** : emoji, clipart stock, traits fins, style “IA violet”, copie des PDF `exemples/`
+- **Photos** : **uniquement** cartes de nomenclature — Wikimedia Commons dans `public/nomenclature/<set>/` + `CREDITS.md`. Composant : `NomenclatureCards`. Ailleurs = SVG uniquement.
+- Illustrations hors nomenclature : **uniquement** via `components/worksheets/art/` (pictos SVG)
+- Modes : `color` / `outline` (SVG) · `photo` (nomenclature)
+- Écriture : majuscules + cursive (pas minuscules script)
+- Syllabes manquantes : **toujours en majuscules**
+- Anatomie : parties **spécifiques** au sujet + encadré « Le savais-tu ? » (pas générique fleur/tige/feuille)
+- Toujours `WorksheetFrame` (prénom, date, footer educpop)
+- L’IA : JSON + templates/pictos/sets photo existants — **pas** d’images bitmap générées
