@@ -57,6 +57,8 @@ export const downloadLead = pgTable("download_lead", {
   id: serial("id").primaryKey(),
   email: text("email").notNull(),
   activitySlug: text("activitySlug").notNull(),
+  ageBand: text("ageBand"),
+  newsletterOptIn: boolean("newsletterOptIn").notNull().default(false),
   userId: text("userId"),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
 })

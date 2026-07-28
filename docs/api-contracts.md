@@ -32,8 +32,10 @@ Peu d’HTTP REST custom. Auth via Better Auth. Mutations métier via Server Act
 |-------|------|-------|
 | email | string | Requis, format email |
 | activitySlug | string | Requis |
+| ageBand | string? | Tranche d'âge du pack |
+| newsletterOptIn | `"1"` / absent | Opt-in explicite (défaut non) |
 
-**Effets :** insert `download_lead` si DB OK ; retourne toujours `{ ok: true }` si email valide (fail-open si DB down).
+**Effets :** insert `download_lead` (email, pack, âge, opt-in) si DB OK ; event analytics `download`.
 
 **Auth :** optionnelle (rattache `userId` si session).
 

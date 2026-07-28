@@ -118,7 +118,11 @@ export default async function ActivityPage({ params }: Props) {
             </div>
 
             <div className="flex shrink-0 flex-col gap-3">
-              <DownloadGate activitySlug={activity.slug} />
+              <DownloadGate
+                activitySlug={activity.slug}
+                ageBand={activity.ages[0]}
+                ageLabel={AGE_LABELS[activity.ages[0]]}
+              />
               <Button
                 asChild
                 variant="outline"

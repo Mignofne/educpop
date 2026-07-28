@@ -14,10 +14,19 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 
-export function DownloadGate({ activitySlug }: { activitySlug: string }) {
+export function DownloadGate({
+  activitySlug,
+  ageBand,
+  ageLabel,
+}: {
+  activitySlug: string
+  ageBand: string
+  ageLabel: string
+}) {
   const [open, setOpen] = useState(false)
   const [unlocked, setUnlocked] = useState(false)
   const [email, setEmail] = useState("")
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
 
@@ -35,6 +44,8 @@ export function DownloadGate({ activitySlug }: { activitySlug: string }) {
     const fd = new FormData()
     fd.set("email", email)
     fd.set("activitySlug", activitySlug)
+    fd.set("ageBand", ageBand)
+    fd.set("newsletterOptIn", newsletterOptIn ? "1" : "0")
     fd.set("sessionId", getAnalyticsSessionId())
     startTransition(async () => {
       const res = await registerDownload(fd)
@@ -64,7 +75,7 @@ export function DownloadGate({ activitySlug }: { activitySlug: string }) {
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">Une dernière étape !</DialogTitle>
             <DialogDescription className="text-base">
-              Laissez votre email pour débloquer le téléchargement. Vous recevrez aussi nos nouvelles fiches gratuites.
+              Laissez votre email pour débloquer le téléchargement et imprimer le pack.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -80,6 +91,18 @@ export function DownloadGate({ activitySlug }: { activitySlug: string }) {
                 className="rounded-xl border-2 border-ink"
               />
             </div>
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-ink/20 bg-muted/40 px-3 py-3">
+              <input
+                type="checkbox"
+                checked={newsletterOptIn}
+                onChange={(e) => setNewsletterOptIn(e.target.checked)}
+                className="mt-0.5 size-4 shrink-0 accent-berry"
+              />
+              <span className="text-sm leading-snug">
+                Je souhaite recevoir les nouveaux livrets pour la tranche d&apos;âge{" "}
+                <strong>{ageLabel}</strong>
+              </span>
+            </label>
             {error && (
               <p className="text-sm font-semibold text-destructive" role="alert">
                 {error}
@@ -93,7 +116,7 @@ export function DownloadGate({ activitySlug }: { activitySlug: string }) {
               {pending ? "Un instant…" : "Débloquer & imprimer"}
             </Button>
             <p className="text-center text-xs text-muted-foreground">
-              Pas de spam. Désabonnement en un clic.
+              Pas de spam. Désabonnement en un clic si vous cochez la newsletter.
             </p>
           </form>
         </DialogContent>

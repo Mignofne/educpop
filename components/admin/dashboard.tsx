@@ -18,9 +18,10 @@ export function AdminDashboard({ stats }: { stats: DashboardStats }) {
     <div className="space-y-8">
       {stats.isDemo && (
         <div className="rounded-2xl border-4 border-dashed border-tangerine bg-tangerine/10 px-4 py-3 text-sm font-semibold text-foreground">
-          Données de démo — aucun événement en base. Lancez{" "}
-          <code className="rounded bg-background px-1">node scripts/seed-analytics.mjs</code> ou utilisez le site
-          pour générer des stats réelles.
+          Mode démo — configurez <code className="rounded bg-background px-1">DATABASE_URL</code> sur Vercel
+          et exécutez{" "}
+          <code className="rounded bg-background px-1">node scripts/create-analytics-table.mjs</code>{" "}
+          pour activer les stats de production. Les données affichées sont fictives.
         </div>
       )}
 

@@ -15,8 +15,36 @@
 
 1. Repo GitHub `educpop`
 2. Import Vercel → framework Next.js
-3. Env vars : `DATABASE_URL`, `BETTER_AUTH_*`, `NEXT_PUBLIC_SITE_URL`
+3. Env vars : `DATABASE_URL`, `BETTER_AUTH_*`, `NEXT_PUBLIC_SITE_URL`, `ADMIN_SECRET`
 4. Domaine custom + HTTPS auto
+
+### Base de données (stats admin + leads)
+
+Après avoir configuré `DATABASE_URL` sur Vercel, exécuter une fois en local (ou via CI) :
+
+```bash
+node scripts/create-analytics-table.mjs
+```
+
+Ce script crée / met à jour :
+
+- `analytics_event` — événements first-party (pages, filtres, téléchargements)
+- `download_lead` — emails capturés au gate de téléchargement (+ `ageBand`, `newsletterOptIn`)
+
+Sans ces tables, le dashboard admin affiche des **données de démo**. Dès qu’au moins un événement analytics ou un lead existe, les stats réelles s’affichent.
+
+**Back-office :**
+
+| URL | Contenu |
+|-----|---------|
+| `/admin` | Dashboard performance (KPIs, top packs) |
+| `/admin/telechargements` | Liste des leads + export CSV |
+| `/admin/telechargements/export` | Export CSV direct |
+
+Variables requises pour le BO en prod :
+
+- `DATABASE_URL` — Postgres (Neon / Supabase)
+- `ADMIN_SECRET` — secret cookie pour `/admin`
 
 ## CI/CD
 

@@ -1,5 +1,5 @@
 /**
- * Create analytics_event table (no seed data).
+ * Create / migrate analytics_event and download_lead tables (no seed data).
  * Usage: node scripts/create-analytics-table.mjs
  */
 import pg from "pg"
@@ -40,6 +40,25 @@ async function main() {
     )
   `)
   console.log("analytics_event table ready")
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS download_lead (
+      id SERIAL PRIMARY KEY,
+      email TEXT NOT NULL,
+      "activitySlug" TEXT NOT NULL,
+      "userId" TEXT,
+      "createdAt" TIMESTAMP NOT NULL DEFAULT NOW()
+    )
+  `)
+  console.log("download_lead table ready")
+
+  await pool.query(`
+    ALTER TABLE download_lead
+      ADD COLUMN IF NOT EXISTS "ageBand" TEXT,
+      ADD COLUMN IF NOT EXISTS "newsletterOptIn" BOOLEAN NOT NULL DEFAULT false
+  `)
+  console.log("download_lead columns ageBand + newsletterOptIn ready")
+
   await pool.end()
 }
 

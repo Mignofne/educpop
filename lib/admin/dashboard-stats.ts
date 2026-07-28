@@ -312,8 +312,13 @@ async function downloadLeadsSince(since: Date): Promise<number> {
 export async function getDashboardStats(): Promise<DashboardStats> {
   if (!db) return getDemoDashboardStats()
 
-  const totalEvents = await db.select({ n: count() }).from(analyticsEvent)
-  if (Number(totalEvents[0]?.n ?? 0) === 0) return getDemoDashboardStats()
+  const [totalEvents, totalLeads] = await Promise.all([
+    db.select({ n: count() }).from(analyticsEvent),
+    db.select({ n: count() }).from(downloadLead),
+  ])
+  const hasProductionData =
+    Number(totalEvents[0]?.n ?? 0) > 0 || Number(totalLeads[0]?.n ?? 0) > 0
+  if (!hasProductionData) return getDemoDashboardStats()
 
   const since7 = daysAgo(7)
   const since30 = daysAgo(30)

@@ -31,7 +31,9 @@ Schéma standard Better Auth (tokens OAuth Google iront dans `account` quand act
 |---------|------|-------|
 | id | serial PK | |
 | email | text | Lead téléchargement |
-| activitySlug | text | Fiche concernée |
+| activitySlug | text | Pack concerné |
+| ageBand | text? | Tranche d'âge du pack (ex. `4-5`) |
+| newsletterOptIn | boolean | Opt-in explicite newsletter (défaut false) |
 | userId | text? | Si connecté |
 | createdAt | timestamp | |
 

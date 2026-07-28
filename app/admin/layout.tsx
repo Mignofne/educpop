@@ -8,6 +8,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </span>
           <nav className="flex gap-4 text-sm font-semibold">
             <a href="/admin" className="text-berry hover:underline">Dashboard</a>
+            <a href="/admin/telechargements" className="text-muted-foreground hover:text-foreground">Téléchargements</a>
             <a href="/admin/login" className="text-muted-foreground hover:text-foreground">Connexion</a>
           </nav>
         </div>
