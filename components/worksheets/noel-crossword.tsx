@@ -1,12 +1,11 @@
 import { ThemeCrossword } from "./theme-crossword"
 
 /**
- * Mots croisés Noël — 8–10 (structure type pirate).
+ * Mots croisés Noël — 8–10.
  * Intersections vérifiées :
- *   RENNE  H @ (1,0)
- *   NEIGE  V @ (0,1) croise E
- *   HIVER  H @ (2,1) croise I
- *   CADEAU H @ (4,1) croise E
+ *   HIVER  H @ (2,0)
+ *   RENNE  V @ (2,4) croise R
+ *   NEIGE  H @ (4,4) croise N
  */
 export function NoelCrossword() {
   return (
@@ -14,20 +13,18 @@ export function NoelCrossword() {
       title="Mots croisés de l'hiver"
       footerNote="Mots croisés · Noël · 8–10 ans"
       accent="berry"
-      rows={6}
-      cols={7}
+      rows={7}
+      cols={9}
       words={[
-        { word: "RENNE", row: 1, col: 0, dir: "H", num: 1 },
-        { word: "NEIGE", row: 0, col: 1, dir: "V", num: 2 },
-        { word: "HIVER", row: 2, col: 1, dir: "H", num: 3 },
-        { word: "CADEAU", row: 4, col: 1, dir: "H", num: 4 },
+        { word: "HIVER", row: 2, col: 0, dir: "H", num: 1 },
+        { word: "RENNE", row: 2, col: 4, dir: "V", num: 2 },
+        { word: "NEIGE", row: 4, col: 4, dir: "H", num: 3 },
       ]}
       across={[
-        { n: 1, text: "Mammifère arctique qui tire le traîneau dans les histoires." },
-        { n: 3, text: "Saison froide où il peut neiger." },
-        { n: 4, text: "Objet emballé qu'on offre à Noël." },
+        { n: 1, text: "Saison froide où il peut neiger." },
+        { n: 3, text: "Flocons blancs qui tombent du ciel en hiver." },
       ]}
-      down={[{ n: 2, text: "Flocons blancs qui tombent du ciel en hiver." }]}
+      down={[{ n: 2, text: "Mammifère arctique qui tire le traîneau dans les histoires." }]}
     />
   )
 }

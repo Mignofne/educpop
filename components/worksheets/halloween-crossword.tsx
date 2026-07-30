@@ -3,9 +3,9 @@ import { ThemeCrossword } from "./theme-crossword"
 /**
  * Mots croisés Halloween — 8–10.
  * Intersections vérifiées :
- *   OCTOBRE H @ (2,0) — O(2,4)=B
- *   BONBON  V @ (2,4)
- *   LUNE    H @ (4,2) — N(4,4)=N
+ *   OCTOBRE H @ (2,0)
+ *   BONBON  V @ (2,4) croise B (rows 2–7 → rows=8)
+ *   LUNE    H @ (4,2) croise N
  */
 export function HalloweenCrossword() {
   return (
@@ -13,7 +13,7 @@ export function HalloweenCrossword() {
       title="Mots croisés d'automne"
       footerNote="Mots croisés · Halloween · 8–10 ans"
       accent="berry"
-      rows={7}
+      rows={8}
       cols={8}
       words={[
         { word: "OCTOBRE", row: 2, col: 0, dir: "H", num: 1 },

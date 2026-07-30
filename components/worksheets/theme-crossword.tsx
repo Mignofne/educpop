@@ -30,6 +30,9 @@ function buildGrid(rows: number, cols: number, words: readonly ThemeCrosswordWor
     ;[...w.word].forEach((_, i) => {
       const rr = w.dir === "H" ? w.row : w.row + i
       const cc = w.dir === "H" ? w.col + i : w.col
+      if (rr < 0 || cc < 0 || rr >= rows || cc >= cols) {
+        throw new Error(`ThemeCrossword: « ${w.word} » hors grille (${rr},${cc}) — rows=${rows} cols=${cols}`)
+      }
       if (!g[rr][cc]) g[rr][cc] = {}
       if (i === 0) g[rr][cc] = { num: w.num }
     })
