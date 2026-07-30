@@ -19,8 +19,18 @@ import { PackCerise } from "./pack-cerise"
 import { PackAfrique } from "./pack-afrique"
 import { PackHalloween } from "./pack-halloween"
 import { PackNoel } from "./pack-noel"
-import { PackLivretAbeilles } from "./pack-livret-abeilles"
-import { PackLivretAbeilles12 } from "./pack-livret-abeilles-1-2"
+import { PackLivretAbeilles67 } from "./pack-livret-abeilles-6-7"
+import {
+  PackLivretAbeilles12,
+  PackLivretCerise45,
+  PackLivretCoccinelle12,
+  PackLivretCoccinelle67,
+  PackLivretOcean67,
+  PackLivretPapillon12,
+  PackLivretPapillon67,
+  PackLivretSerpent67,
+  PackLivretTournesols45,
+} from "./pack-livrets"
 
 const PACK_TOURNESOLS: Record<string, PackAgeGroup> = {
   "pack-tournesols": "4-5",
@@ -199,8 +209,15 @@ export function ActivityWorksheet({ activity }: { activity: Activity }) {
   if (noelAge) return <PackNoel age={noelAge} />
 
   if (activity.slug === "pack-livret-abeilles-1-2") return <PackLivretAbeilles12 />
-
-  if (activity.slug === "pack-livret-abeilles-6-7") return <PackLivretAbeilles />
+  if (activity.slug === "pack-livret-abeilles-6-7") return <PackLivretAbeilles67 />
+  if (activity.slug === "pack-livret-papillon-1-2") return <PackLivretPapillon12 />
+  if (activity.slug === "pack-livret-papillon-6-7") return <PackLivretPapillon67 />
+  if (activity.slug === "pack-livret-coccinelle-1-2") return <PackLivretCoccinelle12 />
+  if (activity.slug === "pack-livret-coccinelle-6-7") return <PackLivretCoccinelle67 />
+  if (activity.slug === "pack-livret-serpent-6-7") return <PackLivretSerpent67 />
+  if (activity.slug === "pack-livret-tournesols-4-5") return <PackLivretTournesols45 />
+  if (activity.slug === "pack-livret-ocean-6-7") return <PackLivretOcean67 />
+  if (activity.slug === "pack-livret-cerise-4-5") return <PackLivretCerise45 />
 
   const onePieceAge = PACK_ONE_PIECE[activity.slug]
   if (onePieceAge) return <PackOnePiece age={onePieceAge} />

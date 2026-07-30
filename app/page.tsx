@@ -35,14 +35,17 @@ export default function HomePage() {
                 educpop — apprendre ensemble, en joie
               </span>
               <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] text-foreground text-balance sm:text-5xl lg:text-6xl">
-                Grandir <span className="text-berry">et</span> faire grandir,
-                <br />
-                un moment <span className="text-sky">joyeux</span> à la fois.
+                Apprendre. Explorer.{" "}
+                <span className="text-sky">Grandir ensemble.</span>
               </h1>
               <Squiggle color="berry" className="mt-3 h-5 w-64" />
               <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
-                Observer, nommer, manipuler — des fiches joyeuses à imprimer, déclinées par âge. Filtrez par
-                thème, ou générez un pack sur-mesure grâce à l&apos;IA.
+                Des activités pédagogiques à imprimer, de 1 à 10 ans, pour les familles et les assistantes
+                maternelles.
+              </p>
+              <p className="mt-3 max-w-md text-lg leading-relaxed text-muted-foreground">
+                Des dizaines de thèmes : nature, saisons, culture, histoire… et des activités adaptées à chaque
+                âge.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Button
@@ -50,7 +53,7 @@ export default function HomePage() {
                   size="lg"
                   className="rounded-full border-2 border-ink bg-berry text-base font-bold text-primary-foreground shadow-[4px_4px_0_0_var(--ink)] hover:bg-berry/90"
                 >
-                  <Link href="/bibliotheque">Explorer les activités</Link>
+                  <Link href="/bibliotheque">Découvrir les activités</Link>
                 </Button>
                 <Button
                   asChild

@@ -7,11 +7,11 @@ Source : Wikimedia Commons.
 | `papillon.jpg` | papillon | Papilio machaon Mitterbach 01.jpg |
 | `chenille.jpg` | chenille | Caterpillar.jpg |
 | `chrysalide.jpg` | chrysalide | Chrysalis.jpg |
-| `fleur.jpg` | fleur | Flower.jpg |
+| `fleur.jpg` | fleur | Dandelion flower.jpg |
 | `aile.jpg` | aile | Butterfly wing.jpg |
-| `oeuf.jpg` | oeuf | Butterfly egg.jpg |
-| `antenne.jpg` | antenne | Insect antennae.jpg |
-| `feuille.jpg` | feuille | Green leaf.jpg |
+| `oeuf.jpg` | œufs de papillon sur feuille | Monarch butterfly egg on a milkweed leaf (42970347980).jpg |
+| `antenne.jpg` | tête et antennes de papillon | Butterfly Aporia crataegi macro portrait.jpg |
+| `feuille.jpg` | feuille verte | Leaf 1 web.jpg |
 | `nectar.jpg` | nectar | Butterfly on flower.jpg |
 | `prairie.jpg` | prairie | Wildflower meadow.jpg |
-| `pollen.jpg` | pollen | Bee covered in pollen.jpg |
+| `pollen.jpg` | pollen sur une fleur | Flower with pollen-Edit2.jpg |

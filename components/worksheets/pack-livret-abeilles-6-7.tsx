@@ -159,7 +159,7 @@ export const LIVRET_ABEILLES_META = {
   activityCount: 8,
 }
 
-export function PackLivretAbeilles() {
+export function PackLivretAbeilles67() {
   const themeLabel = "Les abeilles"
   const activityCount = LIVRET_ABEILLES_META.activityCount
 

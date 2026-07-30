@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { registerDownload } from "@/app/actions/download"
 import { getAnalyticsSessionId } from "@/lib/analytics/client"
 import { Button } from "@/components/ui/button"
@@ -13,10 +13,15 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog"
+import { Download, Printer } from "lucide-react"
 
 function isMobileDevice(): boolean {
   if (typeof navigator === "undefined") return false
   return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+}
+
+function unlockKey(slug: string) {
+  return `educpop-unlock-${slug}`
 }
 
 export function DownloadGate({
@@ -28,34 +33,75 @@ export function DownloadGate({
   ageBand: string
   ageLabel: string
 }) {
-  const [open, setOpen] = useState(false)
+  const [formOpen, setFormOpen] = useState(false)
+  const [thanksOpen, setThanksOpen] = useState(false)
   const [unlocked, setUnlocked] = useState(false)
   const [email, setEmail] = useState("")
   const [newsletterOptIn, setNewsletterOptIn] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [hint, setHint] = useState<string | null>(null)
+  const [printHint, setPrintHint] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
 
-  const handlePrimary = () => {
-    if (unlocked) {
-      try {
-        window.print()
-      } catch {
-        setHint(
-          "Sur mobile : utilisez le menu Partager → Imprimer, ou « Sur l’écran » / PDF.",
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(unlockKey(activitySlug)) === "1") {
+        setUnlocked(true)
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [activitySlug])
+
+  const markUnlocked = () => {
+    setUnlocked(true)
+    try {
+      sessionStorage.setItem(unlockKey(activitySlug), "1")
+    } catch {
+      /* ignore */
+    }
+  }
+
+  const handlePrint = () => {
+    setPrintHint(null)
+    try {
+      window.print()
+      if (isMobileDevice()) {
+        setPrintHint(
+          "Choisissez « Enregistrer en PDF » ou « Imprimer » dans le menu qui s'ouvre.",
         )
       }
-    } else {
-      setOpen(true)
-      setError(null)
-      setHint(null)
+    } catch {
+      setPrintHint(
+        isMobileDevice()
+          ? "Utilisez Partager → Imprimer, puis « Enregistrer en PDF »."
+          : "Utilisez Ctrl+P (ou Cmd+P) pour imprimer ou enregistrer en PDF.",
+      )
+    }
+  }
+
+  const openForm = () => {
+    setFormOpen(true)
+    setError(null)
+    setPrintHint(null)
+  }
+
+  const openThanks = () => {
+    setThanksOpen(true)
+    // Desktop : lancer l'impression juste après l'ouverture du popup (secours si l'utilisateur ne voit pas le CTA)
+    if (!isMobileDevice()) {
+      window.setTimeout(() => {
+        try {
+          window.print()
+        } catch {
+          /* le CTA reste visible */
+        }
+      }, 400)
     }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    setHint(null)
     const fd = new FormData()
     fd.set("email", email)
     fd.set("activitySlug", activitySlug)
@@ -74,60 +120,52 @@ export function DownloadGate({
           setError(res.error)
           return
         }
-        setUnlocked(true)
-        setOpen(false)
-
-        // iOS Safari: print() only works from a direct user gesture — not after await.
-        // On mobile, ask the user to tap the unlocked button instead.
-        if (isMobileDevice()) {
-          setHint(
-            "Pack débloqué ! Appuyez sur « Imprimer / Enregistrer en PDF », puis choisissez Imprimer ou Enregistrer en PDF.",
-          )
-        } else {
-          window.setTimeout(() => {
-            try {
-              window.print()
-            } catch {
-              /* ignore */
-            }
-          }, 250)
-        }
+        markUnlocked()
+        setFormOpen(false)
+        openThanks()
       } catch {
-        // Still unlock — email capture must not block printing
-        setUnlocked(true)
-        setOpen(false)
-        setHint(
-          "Pack débloqué. Appuyez sur « Imprimer / Enregistrer en PDF » pour enregistrer le fichier.",
-        )
+        markUnlocked()
+        setFormOpen(false)
+        openThanks()
       } finally {
         window.clearTimeout(safety)
       }
     })
   }
 
+  const printButtonClass =
+    "rounded-full border-2 border-ink bg-berry font-bold text-primary-foreground shadow-[4px_4px_0_0_var(--ink)] hover:bg-berry/90"
+
   return (
     <>
       <div className="flex flex-col items-start gap-2">
-        <Button
-          onClick={handlePrimary}
-          size="lg"
-          className="rounded-full border-2 border-ink bg-berry font-bold text-primary-foreground shadow-[4px_4px_0_0_var(--ink)] hover:bg-berry/90"
-        >
-          {unlocked ? "Imprimer / Enregistrer en PDF" : "Télécharger gratuitement"}
-        </Button>
-        {hint && (
+        {unlocked ? (
+          <Button onClick={handlePrint} size="lg" className={printButtonClass}>
+            <Download className="mr-2 size-5" aria-hidden />
+            Télécharger et imprimer
+          </Button>
+        ) : (
+          <Button onClick={openForm} size="lg" className={printButtonClass}>
+            Télécharger gratuitement
+          </Button>
+        )}
+        {printHint && (
           <p className="max-w-md text-sm font-semibold text-foreground" role="status">
-            {hint}
+            {printHint}
           </p>
         )}
       </div>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="rounded-[1.5rem] border-4 border-ink shadow-[6px_6px_0_0_var(--ink)]">
+      {/* Email — clarifie : pas d'envoi par mail */}
+      <Dialog open={formOpen} onOpenChange={setFormOpen}>
+        <DialogContent className="rounded-[1.5rem] border-4 border-ink shadow-[6px_6px_0_0_var(--ink)] sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="font-display text-2xl">Une dernière étape !</DialogTitle>
-            <DialogDescription className="text-base">
-              Laissez votre email pour débloquer le téléchargement et imprimer le pack.
+            <DialogTitle className="font-display text-2xl">Accéder au pack</DialogTitle>
+            <DialogDescription className="text-base leading-relaxed">
+              Laissez votre email pour continuer.{" "}
+              <strong className="font-semibold text-foreground">
+                Le pack s&apos;affiche tout de suite ici — rien n&apos;est envoyé par email.
+              </strong>
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -167,15 +205,73 @@ export function DownloadGate({
               disabled={pending}
               className="rounded-full border-2 border-ink bg-berry font-bold text-primary-foreground shadow-[3px_3px_0_0_var(--ink)] hover:bg-berry/90"
             >
-              {pending ? "Un instant…" : "Débloquer & imprimer"}
+              {pending ? "Un instant…" : "Continuer"}
             </Button>
             <p className="text-center text-xs text-muted-foreground">
-              Pas de spam. Désabonnement en un clic si vous cochez la newsletter.
-              Sur iPhone : après déblocage, utilisez Imprimer → Enregistrer en PDF.
+              Pas de spam. Vous imprimez ou enregistrez le PDF directement depuis cette page.
             </p>
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Merci — CTA principal visible */}
+      <Dialog open={thanksOpen} onOpenChange={setThanksOpen}>
+        <DialogContent
+          className="rounded-[1.5rem] border-4 border-ink shadow-[6px_6px_0_0_var(--ink)] sm:max-w-md"
+          showCloseButton
+        >
+          <DialogHeader className="items-center text-center">
+            <div
+              className="mx-auto flex size-16 items-center justify-center rounded-full border-[3px] border-ink bg-sun shadow-[3px_3px_0_0_var(--ink)]"
+              aria-hidden
+            >
+              <Printer className="size-8 text-ink" />
+            </div>
+            <DialogTitle className="font-display text-2xl">Merci ! Votre pack est prêt</DialogTitle>
+            <DialogDescription className="text-base leading-relaxed">
+              <strong className="font-semibold text-foreground">Rien n&apos;est envoyé par email.</strong>{" "}
+              Cliquez ci-dessous pour imprimer ou enregistrer le PDF sur votre appareil.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <Button
+              type="button"
+              size="lg"
+              onClick={handlePrint}
+              className="h-14 w-full rounded-full border-2 border-ink bg-berry text-base font-bold text-primary-foreground shadow-[4px_4px_0_0_var(--ink)] hover:bg-berry/90"
+            >
+              <Download className="mr-2 size-5" aria-hidden />
+              Télécharger et imprimer
+            </Button>
+            <p className="text-center text-xs leading-relaxed text-muted-foreground">
+              {isMobileDevice()
+                ? "Sur iPhone : choisissez « Enregistrer en PDF » dans le menu d'impression."
+                : "Astuce : dans la fenêtre d'impression, choisissez « Enregistrer au format PDF »."}
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setThanksOpen(false)}
+              className="rounded-full border-2 border-ink font-semibold shadow-[2px_2px_0_0_var(--ink)]"
+            >
+              Fermer — le bouton reste en haut de page
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Barre fixe — visible en scrollant dans le livret */}
+      {unlocked ? (
+        <>
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t-4 border-ink bg-background/95 p-4 shadow-[0_-4px_0_0_var(--ink)] backdrop-blur-sm print:hidden md:hidden">
+            <Button onClick={handlePrint} size="lg" className={`h-12 w-full ${printButtonClass}`}>
+              <Download className="mr-2 size-5" aria-hidden />
+              Télécharger et imprimer
+            </Button>
+          </div>
+          <div className="h-20 md:hidden print:hidden" aria-hidden />
+        </>
+      ) : null}
     </>
   )
 }

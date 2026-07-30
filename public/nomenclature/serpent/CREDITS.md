@@ -8,7 +8,7 @@ Source : Wikimedia Commons. Sujets vérifiés (animal réel, pas de stylo / marq
 | `ecaille.jpg` | écailles de serpent | Snake skin.jpg |
 | `langue.jpg` | langue fourchue | Brown Red Snake Flicking Forked Tongue 5.jpg |
 | `oeuf.jpg` | œufs de serpent | Ball Python Eggs Incubating.jpg |
-| `desert.jpg` | désert | Desert.jpg |
+| `desert.jpg` | dunes de sable | Sossusvlei sand dunes.jpg |
 | `foret.jpg` | forêt | Forest path.jpg |
 | `mue.jpg` | mue / peau | Snake shed skin.jpg |
 | `tete.jpg` | tête de serpent | Snake head.jpg |
