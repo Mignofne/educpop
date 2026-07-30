@@ -36,8 +36,8 @@ const DECOY_POOL = "XYZMNPRQKWJF"
 
 /**
  * Banque de bulles : lettres du mot (+ leurres).
- * - shuffle=false (2–3 / 4–5) : lettres du mot d’abord, ordre utile
- * - shuffle=true (6–7 / 8–10) : mélange stable seedé par le mot
+ * - shuffle=false (2–3) : lettres du mot d’abord, ordre utile
+ * - shuffle=true (4–5 / 6–7 / 8–10) : mélange stable seedé par le mot
  */
 export function letterBubbles(
   word: string,

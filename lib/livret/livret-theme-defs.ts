@@ -133,6 +133,7 @@ export type LivretThemeDef = {
   sequence45: readonly Livret45SequenceStep[]
   sequence45Shuffle: readonly number[]
   seekItems45: readonly LivretSeekItem[]
+  pathConfig?: { From: OutlinePicto; To: OutlinePicto; bubbleWord: string }
   toddlerMeta: readonly LivretActivityMeta[]
   meta45: readonly LivretActivityMeta[]
   meta67: readonly LivretActivityMeta[]
@@ -198,8 +199,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
     ],
     soundItems: [
       { word: "l'abeille", src: "/nomenclature/abeilles/abeille.jpg", alt: "Photo d'une abeille", sound: "Bzzz !" },
-      { word: "la ruche", src: "/nomenclature/abeilles/ruche.jpg", alt: "Photo d'une ruche", sound: "Mmm…" },
-      { word: "la fleur", src: "/nomenclature/abeilles/fleur.jpg", alt: "Photo d'une fleur", sound: "Silence" },
+      { word: "la ruche", src: "/nomenclature/abeilles/ruche.jpg", alt: "Photo d'une ruche", sound: "Bzzz…" },
+      { word: "la fleur", src: "/nomenclature/abeilles/fleur.jpg", alt: "Photo d'une fleur", sound: "Frou…" },
     ],
     twoColorSort: {
       zones: [
@@ -213,7 +214,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
       { left: PictoBee, right: PictoSunflower },
       { left: PictoSunflower, right: PictoSunflower },
     ],
-    coloringPictos: [PictoSunflower, PictoBee],
+    coloringPictos: [PictoBee, PictoWing, PictoSunflower, PictoHive],
+    pathConfig: { From: PictoBee, To: PictoHive, bubbleWord: "ABEILLE" },
     lifecycle: [
       { label: "Œuf", Picto: PictoEgg },
       { label: "Larve", photo: NOMENCLATURE_ABEILLES.find((c) => c.word === "le couvain")! },
@@ -311,7 +313,7 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
     soundItems: [
       { word: "le papillon", src: "/nomenclature/papillon/papillon.jpg", alt: "Photo d'un papillon", sound: "Silence" },
       { word: "la chenille", src: "/nomenclature/papillon/chenille.jpg", alt: "Photo d'une chenille", sound: "Crr…" },
-      { word: "la fleur", src: "/nomenclature/papillon/fleur.jpg", alt: "Photo d'une fleur", sound: "Silence" },
+      { word: "la fleur", src: "/nomenclature/papillon/fleur.jpg", alt: "Photo d'une fleur", sound: "Bzzz…" },
     ],
     twoColorSort: {
       zones: [
@@ -325,7 +327,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
       { left: PictoButterfly, right: PictoCaterpillar },
       { left: PictoBloom, right: PictoBloom },
     ],
-    coloringPictos: [PictoBloom, PictoButterfly],
+    coloringPictos: [PictoButterfly, PictoCaterpillar, PictoLeaf, PictoBloom],
+    pathConfig: { From: PictoCaterpillar, To: PictoButterfly, bubbleWord: "PAPILLON" },
     lifecycle: [
       { label: "Œuf", Picto: PictoEgg },
       { label: "Chenille", Picto: PictoCaterpillar },
@@ -423,7 +426,7 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
     soundItems: [
       { word: "la coccinelle", src: "/nomenclature/coccinelle/coccinelle.jpg", alt: "Photo d'une coccinelle", sound: "Silence" },
       { word: "la feuille", src: "/nomenclature/coccinelle/feuille.jpg", alt: "Photo d'une feuille", sound: "Frou…" },
-      { word: "la fleur", src: "/nomenclature/coccinelle/fleur.jpg", alt: "Photo d'une fleur", sound: "Silence" },
+      { word: "la fleur", src: "/nomenclature/coccinelle/fleur.jpg", alt: "Photo d'une fleur", sound: "Chuu…" },
     ],
     twoColorSort: {
       zones: [
@@ -437,7 +440,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
       { left: PictoLadybug, right: PictoBloom },
       { left: PictoLeaf, right: PictoLeaf },
     ],
-    coloringPictos: [PictoLeaf, PictoLadybug],
+    coloringPictos: [PictoLadybug, PictoLadybug, PictoLeaf, PictoBloom],
+    pathConfig: { From: PictoEgg, To: PictoLadybug, bubbleWord: "COCCINELLE" },
     lifecycle: [
       { label: "Œuf", photo: NOMENCLATURE_COCCINELLE.find((c) => c.word === "l'œuf")! },
       { label: "Larve", photo: NOMENCLATURE_COCCINELLE.find((c) => c.word === "la larve")! },
@@ -535,7 +539,7 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
     soundItems: [
       { word: "le serpent", src: "/nomenclature/serpent/serpent.jpg", alt: "Photo d'un serpent", sound: "Ssss !" },
       { word: "le sable", src: "/nomenclature/serpent/sable.jpg", alt: "Photo de sable", sound: "Chhh…" },
-      { word: "la forêt", src: "/nomenclature/serpent/foret.jpg", alt: "Photo d'une forêt", sound: "Silence" },
+      { word: "la forêt", src: "/nomenclature/serpent/foret.jpg", alt: "Photo d'une forêt", sound: "Cui cui…" },
     ],
     twoColorSort: {
       zones: [
@@ -549,7 +553,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
       { left: PictoSnake, right: PictoScale },
       { left: PictoTongue, right: PictoTongue },
     ],
-    coloringPictos: [PictoSnake, PictoScale],
+    coloringPictos: [PictoSnake, PictoScale, PictoEgg, PictoTongue],
+    pathConfig: { From: PictoEgg, To: PictoSnake, bubbleWord: "SERPENT" },
     lifecycle: [
       { label: "Œuf", photo: NOMENCLATURE_SERPENT.find((c) => c.word === "l'œuf")! },
       { label: "Jeune", Picto: PictoSnake },
@@ -647,7 +652,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
     soundItems: [],
     twoColorSort: { zones: [], items: [] },
     sameDifferentPairs: [],
-    coloringPictos: [PictoSunflower, PictoSun],
+    coloringPictos: [PictoSunflower, PictoSun, PictoStem, PictoLeaf],
+    pathConfig: { From: PictoSeed, To: PictoSunflower, bubbleWord: "TOURNESOL" },
     lifecycle: [],
     lifecycleShuffle: [],
     story: [],
@@ -717,7 +723,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
     soundItems: [],
     twoColorSort: { zones: [], items: [] },
     sameDifferentPairs: [],
-    coloringPictos: [PictoFish, PictoOceanWave],
+    coloringPictos: [PictoOceanWave, PictoFish, PictoBoat, PictoShell],
+    pathConfig: { From: PictoFish, To: PictoShell, bubbleWord: "OCEAN" },
     lifecycle: [
       { label: "Œuf", photo: NOMENCLATURE_OCEAN.find((c) => c.word === "le poisson")! },
       { label: "Alevin", Picto: PictoFish },
@@ -805,7 +812,8 @@ export const LIVRET_THEME_DEFS: Record<LivretThemeId, LivretThemeDef> = {
     soundItems: [],
     twoColorSort: { zones: [], items: [] },
     sameDifferentPairs: [],
-    coloringPictos: [PictoCherryTree, PictoCherryFruit],
+    coloringPictos: [PictoCherryFruit, PictoCherryFlower, PictoCherryLeaf, PictoCherryTree],
+    pathConfig: { From: PictoCherryFlower, To: PictoCherryFruit, bubbleWord: "CERISE" },
     lifecycle: [],
     lifecycleShuffle: [],
     story: [],
@@ -865,50 +873,50 @@ function toddlerAbeillesMeta(): LivretActivityMeta[] {
 
 function toddlerMeta(themeLabel: string): LivretActivityMeta[] {
   return [
-    meta(1, "Cartes à nommer", "Nomenclature (oral)", "Nommer les images", "Montre une photo. Dis le mot ensemble.", "Cinq mots du thème.", note("fact", `Découvre le vocabulaire de ${themeLabel.toLowerCase()}.`), ["Quelle photo te plaît le plus ?"]),
-    meta(2, "Je colorie", "Coloriage grand format", "Colorier librement", "Colorie la scène. Gros gestes !", "Colorie comme tu veux.", note("fact", "Observer aide à reconnaître les formes."), ["Quelle couleur choisis-tu en premier ?"]),
-    meta(3, "La bonne couleur", "Association couleur", "Relier image et couleur", "Montre la bonne couleur. Puis colorie.", "Chaque image a ses couleurs.", undefined, ["Quelle couleur vois-tu sur la photo ?"]),
-    meta(4, "Son / imitation", "Son / imitation", "Imiter un son", "Écoute. Imite le son indiqué.", "Certains animaux font un son.", note("fact", "Les sons aident à reconnaître les animaux."), ["Peux-tu imiter tout doux, puis plus fort ?"]),
-    meta(5, "Deux couleurs", "Tri 2 couleurs", "Trier par couleur", "Entoure la bonne couleur. Dis-la à voix haute.", "Observe les couleurs sur l'image.", undefined, ["Quelle couleur domine ?"]),
-    meta(6, "Pareil ou pas ?", "Même / différent", "Comparer", "Entoure PAREIL ou PAS PAREIL.", "Compare les deux images.", undefined, ["Qu'est-ce qui change ?"]),
+    meta(1, "Cartes à nommer", "Nomenclature (oral)", "Nommer les images", "Montre une photo. Dis le mot ensemble.", "Cinq mots du thème.", note("fact", `Découvre le vocabulaire de ${themeLabel.toLowerCase()}.`), ["Quelle photo te plaît le plus ?", "Peux-tu montrer avec ton doigt ?"]),
+    meta(2, "Je colorie", "Coloriage grand format", "Colorier librement", "Colorie la scène. Gros gestes !", "Colorie comme tu veux.", note("fact", "Observer aide à reconnaître les formes."), ["Quelle couleur choisis-tu en premier ?", "Où vois-tu cette forme dehors ?"]),
+    meta(3, "La bonne couleur", "Association couleur", "Relier image et couleur", "Montre la bonne couleur. Puis colorie.", "Chaque image a ses couleurs.", note("fact", "Nommer les couleurs enrichit le vocabulaire."), ["Quelle couleur vois-tu sur la photo ?", "As-tu vu ces couleurs dans la nature ?"]),
+    meta(4, "Son / imitation", "Son / imitation", "Imiter un son", "Écoute. Imite le son indiqué.", "Certains animaux font un son.", note("fact", "Les sons aident à reconnaître les animaux."), ["Peux-tu imiter tout doux, puis plus fort ?", "Quel son entends-tu dehors ?"]),
+    meta(5, "Deux couleurs", "Tri 2 couleurs", "Trier par couleur", "Entoure la bonne couleur. Dis-la à voix haute.", "Observe les couleurs sur l'image.", note("fact", "Comparer deux couleurs, c'est déjà classer."), ["Quelle couleur domine ?", "Peux-tu trouver la même couleur ailleurs ?"]),
+    meta(6, "Pareil ou pas ?", "Même / différent", "Comparer", "Entoure PAREIL ou PAS PAREIL.", "Compare les deux images.", note("fact", "Comparer entraîne l'observation."), ["Qu'est-ce qui change ?", "Qu'est-ce qui est pareil ?"]),
   ]
 }
 
 function meta45(themeLabel: string): LivretActivityMeta[] {
   return [
-    meta(1, "Cartes de nomenclature", "Nomenclature enrichie", "Associer image et mot", "Découpe les mots. Associe chaque photo.", "Huit mots du thème.", note("fact", `Vocabulaire de ${themeLabel.toLowerCase()}.`), ["Quel mot connais-tu déjà ?"]),
-    meta(2, "Coloriage codé", "Coloriage codé", "Colorier selon les numéros", "Colorie chaque zone avec la bonne couleur.", "Chaque numéro = une couleur.", note("fact", "Observer les détails aide à nommer."), ["Quelle zone colories-tu en premier ?"]),
-    meta(3, "À quoi ça sert ?", "Relier image ↔ fonction", "Relier photo et rôle", "Relie chaque photo à ce qu'elle fait.", "Chaque élément a un rôle.", note("hypothesis", "Pourquoi la plante a-t-elle besoin du soleil ?"), ["Peux-tu expliquer avec tes mots ?"]),
-    meta(4, "Dans quel ordre ?", "Séquence images", "Ordonner des étapes", "Les cartes sont mélangées. Numérote de 1 à 4.", "Une histoire a un ordre.", note("fact", "Les plantes changent au fil du temps."), ["Que se passe-t-il avant ?"]),
-    meta(5, "Je cherche", "Cherche-et-trouve", "Trouver des images", "Entoure chaque objet demandé.", "Regarde bien chaque photo.", undefined, ["Lequel était le plus difficile ?"]),
-    meta(6, "Vivant ou pas ?", "Tri catégories", "Classer vivant / non vivant", "Colorie VIVANT ou NON. Explique.", "Certains éléments sont vivants.", note("fact", "Une fleur est vivante ; un panier ne l'est pas."), ["Le fruit est-il vivant ?"]),
-    meta(7, "Mon labyrinthe", "Labyrinthe", "Suivre un chemin", "Aide le personnage à sortir du labyrinthe.", "Un seul chemin mène à la sortie.", undefined, ["As-tu essayé un autre chemin ?"]),
+    meta(1, "Cartes de nomenclature", "Nomenclature enrichie", "Associer image et mot", "Découpe les mots. Associe chaque photo.", "Huit mots du thème.", note("fact", `Vocabulaire de ${themeLabel.toLowerCase()}.`), ["Quel mot connais-tu déjà ?", "Peux-tu le dire à voix haute en montrant la photo ?"]),
+    meta(2, "Coloriage codé", "Coloriage codé", "Colorier selon les numéros", "Colorie chaque zone avec la bonne couleur.", "Chaque numéro = une couleur.", note("fact", "Observer les détails aide à nommer."), ["Quelle zone colories-tu en premier ?", "À quoi ressemble cet élément dans la nature ?"]),
+    meta(3, "À quoi ça sert ?", "Relier image ↔ fonction", "Relier photo et rôle", "Relie chaque photo à ce qu'elle fait.", "Chaque élément a un rôle.", note("hypothesis", "Pourquoi la plante a-t-elle besoin du soleil ?"), ["Peux-tu expliquer avec tes mots ?", "As-tu déjà vu ça dehors ?"]),
+    meta(4, "Dans quel ordre ?", "Séquence images", "Ordonner des étapes", "Les cartes sont mélangées. Numérote de 1 à 4.", "Une histoire a un ordre.", note("fact", "Les plantes changent au fil du temps."), ["Que se passe-t-il avant ?", "Raconte l'histoire dans l'ordre."]),
+    meta(5, "Je cherche", "Cherche-et-trouve", "Trouver des images", "Entoure chaque objet demandé.", "Regarde bien chaque photo.", note("fact", "Chercher dans une image entraîne l'œil."), ["Lequel était le plus difficile ?", "Pourquoi cet objet est-il important ?"]),
+    meta(6, "Vivant ou pas ?", "Tri catégories", "Classer vivant / non vivant", "Colorie VIVANT ou NON. Explique.", "Certains éléments sont vivants.", note("fact", "Une fleur est vivante ; un panier ne l'est pas."), ["Le fruit est-il vivant ?", "Comment le sais-tu ?"]),
+    meta(7, "Mes chemins", "Tracés progressifs", "Tracer du facile au difficile", "Trace les 3 chemins du plus facile au défi. Puis colorie les bonnes bulles.", "La motricité fine s'entraîne par étapes.", note("fact", "Tracer aide la main avant l'écriture."), ["Quel chemin as-tu préféré ?", "Peux-tu nommer les pictos de départ et d'arrivée ?"]),
   ]
 }
 
 function meta67(themeLabel: string): LivretActivityMeta[] {
   return [
-    meta(1, "Coloriage codé", "Coloriage codé", "Colorier selon les numéros", "Colorie chaque zone avec la bonne couleur.", "Chaque numéro = une couleur.", note("fact", `Découverte de ${themeLabel.toLowerCase()}.`), ["Quelle zone as-tu coloriée en premier ?"]),
-    meta(2, "Cartes de nomenclature", "Nomenclature", "Associer image et mot", "Découpe les mots. Associe chaque photo.", "Huit mots clés.", note("fact", "Le vocabulaire précis aide à observer."), ["Quelle carte te plaît le plus ?"]),
-    meta(3, "Légende l'image", "Schéma légendé", "Nommer les parties", "Écris chaque mot dans la bonne case.", "Chaque partie a un nom.", note("hypothesis", "À quoi sert chaque partie ?"), ["Peux-tu montrer sur la photo ?"]),
-    meta(4, "Vivant ou pas ?", "Classification", "Distinguer vivant / non vivant", "Colorie VIVANT ou NON. Explique à voix haute.", "Observer pour classer.", note("fact", "Tous les éléments ne sont pas vivants."), ["Quel mot t'a surpris ?"]),
-    meta(5, "Dans quel ordre ?", "Frise", "Ordonner un cycle", "Les cartes sont mélangées. Numérote de 1 à 4.", "Un cycle a plusieurs étapes.", note("fact", "Les êtres vivants changent."), ["En quoi c'est pareil ou différent d'un autre animal ?"]),
-    meta(6, "Raconte l'histoire", "Séquence", "Remettre une histoire dans l'ordre", "Numérote de 1 à 5, puis raconte.", "Une journée ou une histoire.", note("fact", "Raconter aide à comprendre."), ["Pourquoi cet ordre ?"]),
-    meta(7, "Vrai ou faux", "Vrai / faux", "Vérifier des affirmations", "Entoure VRAI ou FAUX.", "Lis chaque phrase.", note("fact", "Vérifier une affirmation, c'est réfléchir."), ["Comment sais-tu que c'est vrai ou faux ?"]),
-    meta(8, "Mots croisés", "Mots croisés", "Réviser le vocabulaire", "Écris les mots en MAJUSCULES dans la grille.", "Les mots se croisent.", undefined, ["Peux-tu faire une phrase avec deux mots ?"]),
+    meta(1, "Coloriage codé", "Coloriage codé", "Colorier selon les numéros", "Colorie chaque zone avec la bonne couleur.", "Chaque numéro = une couleur.", note("fact", `Découverte de ${themeLabel.toLowerCase()}.`), ["Quelle zone as-tu coloriée en premier ?", "Quelle couleur correspond au numéro 3 ?"]),
+    meta(2, "Cartes de nomenclature", "Nomenclature", "Associer image et mot", "Découpe les mots. Associe chaque photo.", "Huit mots clés.", note("fact", "Le vocabulaire précis aide à observer."), ["Quelle carte te plaît le plus ?", "Peux-tu utiliser le mot dans une phrase ?"]),
+    meta(3, "Légende l'image", "Schéma légendé", "Nommer les parties", "Écris chaque mot dans la bonne case.", "Chaque partie a un nom.", note("hypothesis", "À quoi sert chaque partie ?"), ["Peux-tu montrer sur la photo ?", "Le savais-tu : chaque partie a un rôle précis."]),
+    meta(4, "Vivant ou pas ?", "Classification", "Distinguer vivant / non vivant", "Colorie VIVANT ou NON. Explique à voix haute.", "Observer pour classer.", note("fact", "Tous les éléments ne sont pas vivants."), ["Quel mot t'a surpris ?", "Pourquoi as-tu choisi vivant ou non ?"]),
+    meta(5, "Dans quel ordre ?", "Frise", "Ordonner un cycle", "Les cartes sont mélangées. Numérote de 1 à 4.", "Un cycle a plusieurs étapes.", note("fact", "Les êtres vivants changent."), ["En quoi c'est pareil ou différent d'un autre animal ?", "Raconte le cycle comme une histoire."]),
+    meta(6, "Mes chemins", "Tracés progressifs", "Tracer du facile au difficile", "Trace les 3 chemins. Colorie les bulles du mot indiqué.", "Motricité et lecture se rejoignent.", note("fact", "Les tracés préparent l'écriture cursive."), ["Quel chemin était le plus difficile ?", "Retrouve les lettres du mot dans les bulles."]),
+    meta(7, "Vrai ou faux", "Vrai / faux", "Vérifier des affirmations", "Entoure VRAI ou FAUX.", "Lis chaque phrase.", note("fact", "Vérifier une affirmation, c'est réfléchir."), ["Comment sais-tu que c'est vrai ou faux ?", "As-tu une expérience qui le confirme ?"]),
+    meta(8, "Mots croisés", "Mots croisés", "Réviser le vocabulaire", "Écris les mots en MAJUSCULES dans la grille.", "Les mots se croisent.", note("fact", "Les mots croisés renforcent l'orthographe."), ["Peux-tu faire une phrase avec deux mots ?", "Quel mot du thème connais-tu le mieux ?"]),
   ]
 }
 
 function meta67Abeilles(): LivretActivityMeta[] {
   return [
-    meta(1, "Coloriage codé", "Coloriage codé (additions)", "Résoudre des additions simples", "Résous chaque addition. Colorie avec la bonne couleur.", "Chaque zone a une addition.", note("fact", "Les abeilles domestiques vivent en colonies dans une ruche."), ["Pourquoi les abeilles vont-elles vers les fleurs ?"]),
-    meta(2, "Cartes de nomenclature", "Nomenclature", "Associer image et mot", "Découpe les mots. Associe chaque photo.", "Huit mots clés du thème abeilles.", note("fact", "Une colonie compte une reine, des ouvrières et des mâles."), ["Quelle carte te plaît le plus ?"]),
-    meta(3, "Légende la ruche", "Schéma légendé", "Nommer les parties de la ruche", "Écris chaque mot dans la case qui va avec.", "Une ruche a plusieurs parties.", note("hypothesis", "Les abeilles dansent pour indiquer où trouver du nectar."), ["À quoi sert chaque partie selon toi ?"]),
-    meta(4, "Vivant ou pas ?", "Classification", "Distinguer vivant / non vivant", "Colorie VIVANT ou NON. Explique à voix haute.", "L'abeille est vivante ; le miel est fabriqué.", undefined, ["Le miel est-il vivant ? Pourquoi ?"]),
-    meta(5, "De l'œuf à l'abeille", "Frise", "Ordonner le cycle de vie", "Les cartes sont mélangées. Numérote de 1 à 4.", "Œuf → larve → nymphe → abeille.", note("fact", "Les ouvrières nourrissent la larve."), ["En quoi c'est pareil ou différent du papillon ?"]),
-    meta(6, "Journée d'une butineuse", "Séquence", "Remettre une histoire dans l'ordre", "Numérote de 1 à 5, puis raconte.", "Butiner = quitter la ruche, visiter des fleurs, revenir.", note("fact", "Une ouvrière peut visiter des centaines de fleurs."), ["Pourquoi doit-elle revenir à la ruche ?"]),
-    meta(7, "Vrai ou faux", "Vrai / faux", "Vérifier des affirmations", "Entoure VRAI ou FAUX.", "Seules les ouvrières butinent.", note("fact", "Les faux-bourdons ne butinent pas."), ["Comment sais-tu que c'est vrai ou faux ?"]),
-    meta(8, "Mots croisés", "Mots croisés", "Réviser le vocabulaire", "Écris les mots en MAJUSCULES.", "Mots clés : abeille, aile, miel.", undefined, ["Peux-tu faire une phrase avec deux mots ?"]),
+    meta(1, "Coloriage codé", "Coloriage codé (additions)", "Résoudre des additions simples", "Résous chaque addition. Colorie avec la bonne couleur.", "Chaque zone a une addition.", note("fact", "Les abeilles domestiques vivent en colonies dans une ruche."), ["Pourquoi les abeilles vont-elles vers les fleurs ?", "Quelle couleur as-tu utilisée pour la ruche ?"]),
+    meta(2, "Cartes de nomenclature", "Nomenclature", "Associer image et mot", "Découpe les mots. Associe chaque photo.", "Huit mots clés du thème abeilles.", note("fact", "Une colonie compte une reine, des ouvrières et des mâles."), ["Quelle carte te plaît le plus ?", "Peux-tu nommer trois parties de la ruche ?"]),
+    meta(3, "Légende la ruche", "Schéma légendé", "Nommer les parties de la ruche", "Écris chaque mot dans la case qui va avec.", "Une ruche a plusieurs parties.", note("hypothesis", "Les abeilles dansent pour indiquer où trouver du nectar."), ["À quoi sert chaque partie selon toi ?", "As-tu déjà vu une ruche ?"]),
+    meta(4, "Vivant ou pas ?", "Classification", "Distinguer vivant / non vivant", "Colorie VIVANT ou NON. Explique à voix haute.", "L'abeille est vivante ; le miel est fabriqué.", note("fact", "Le miel est fabriqué par les abeilles à partir du nectar."), ["Le miel est-il vivant ? Pourquoi ?", "Le pollen est-il vivant ?"]),
+    meta(5, "De l'œuf à l'abeille", "Frise", "Ordonner le cycle de vie", "Les cartes sont mélangées. Numérote de 1 à 4.", "Œuf → larve → nymphe → abeille.", note("fact", "Les ouvrières nourrissent la larve."), ["En quoi c'est pareil ou différent du papillon ?", "Raconte le cycle à voix haute."]),
+    meta(6, "Mes chemins", "Tracés progressifs", "Tracer du facile au difficile", "Trace les 3 chemins. Colorie les bulles du mot ABEILLE.", "Motricité et lecture se rejoignent.", note("fact", "Les tracés préparent l'écriture cursive."), ["Quel chemin était le plus difficile ?", "Retrouve les lettres de ABEILLE dans les bulles."]),
+    meta(7, "Vrai ou faux", "Vrai / faux", "Vérifier des affirmations", "Entoure VRAI ou FAUX.", "Seules les ouvrières butinent.", note("fact", "Les faux-bourdons ne butinent pas."), ["Comment sais-tu que c'est vrai ou faux ?", "Peux-tu expliquer à un plus jeune ?"]),
+    meta(8, "Mots croisés", "Mots croisés", "Réviser le vocabulaire", "Écris les mots en MAJUSCULES.", "Mots clés : abeille, aile, miel.", note("fact", "Les mots croisés renforcent l'orthographe."), ["Peux-tu faire une phrase avec deux mots ?", "Quel mot du thème connais-tu le mieux ?"]),
   ]
 }
 

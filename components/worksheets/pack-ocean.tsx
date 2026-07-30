@@ -1,6 +1,7 @@
 import type { AgeGroup, PackAgeGroup } from "@/lib/activities"
 import { AGE_LABELS } from "@/lib/activities"
 import { NOMENCLATURE_OCEAN } from "@/lib/worksheets/nomenclature-sets"
+import { OceanCrossword } from "./ocean-crossword"
 import { PackCover } from "./pack-cover"
 import {
   AnimeColoring,
@@ -69,7 +70,7 @@ const META: Record<PackAgeGroup,
       "3. Zones de l'océan à associer",
       "4. Vrai / faux — la mer",
       "5. Expédition à raconter",
-      "6. Chemin défi — pieuvre",
+      "6. Mots croisés de l'océan",
     ],
     activityCount: 6,
   },
@@ -315,16 +316,7 @@ export function PackOcean({ age }: { age: PackAgeGroup }) {
               { n: 4, label: "On note les découvertes dans le carnet" },
             ]}
           />
-          <AnimePath
-            title="Aide la pieuvre à rejoindre le bateau"
-            instructions="Trace le chemin zigzag. Colorie les bulles du mot PROFOND."
-            footerNote="Tracés · Océan · 8–10 ans"
-            accent="berry"
-            From={PictoOctopus}
-            To={PictoBoat}
-            bubbleWord="PROFOND"
-            hard
-          />
+          <OceanCrossword />
         </>
       )}
     </div>

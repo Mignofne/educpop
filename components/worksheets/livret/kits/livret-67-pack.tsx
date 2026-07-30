@@ -1,5 +1,7 @@
 import type { LivretCrosswordWord, LivretLifecycleStep, LivretThemeDef } from "@/lib/livret/livret-theme-defs"
+import { PathTriple } from "@/components/worksheets/path-triple"
 import { PhotoBox } from "@/components/worksheets/nomenclature-cards"
+import { LivretColorByNumber } from "../livret-color-by-number"
 import { LivretActivityFrame } from "../livret-activity-frame"
 import { LivretNomenclatureGrid } from "../livret-nomenclature-grid"
 
@@ -10,13 +12,13 @@ function shuffled<T>(items: readonly T[], order: readonly number[]): T[] {
 }
 
 export function PackLivret67({ config }: { config: LivretThemeDef }) {
-  const { themeLabel, meta67: activities, cards8: cards } = config
+  const { themeLabel, meta67: activities, cards8: cards, pathConfig } = config
   const activityCount = 8
 
   return (
     <div className="flex flex-col gap-10 print:gap-0">
       <LivretActivityFrame meta={activities[0]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[0]}>
-        <ColorByNumber config={config} />
+        <LivretColorByNumber pictos={config.coloringPictos} colorLegend={config.colorLegend} colorZones={config.colorZones} />
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={activities[1]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[1]}>
@@ -36,7 +38,9 @@ export function PackLivret67({ config }: { config: LivretThemeDef }) {
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={activities[5]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[5]}>
-        <StoryOrder story={config.story} shuffle={config.storyShuffle} />
+        {pathConfig ? (
+          <PathTriple From={pathConfig.From} To={pathConfig.To} bubbleWord={pathConfig.bubbleWord} age="6-7" />
+        ) : null}
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={activities[6]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[6]}>
@@ -46,63 +50,6 @@ export function PackLivret67({ config }: { config: LivretThemeDef }) {
       <LivretActivityFrame meta={activities[7]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[7]}>
         <CrosswordActivity crossword={config.crossword} />
       </LivretActivityFrame>
-    </div>
-  )
-}
-
-function ColorByNumber({ config }: { config: LivretThemeDef }) {
-  const [A, B] = config.coloringPictos
-
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-2xl border-[3px] border-ink bg-white px-3 py-2">
-        <p className="font-display text-[10px] font-bold uppercase tracking-wide text-ink/55">Légende des couleurs</p>
-        <ul className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
-          {config.colorLegend.map(({ num, name }) => (
-            <li key={num} className="flex items-center gap-1.5 font-display text-xs font-bold">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-[2.5px] border-ink bg-[#fffdf7] text-[10px]">
-                {num}
-              </span>
-              <span>= {name}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="rounded-2xl border-[3px] border-ink bg-[#fffdf7] p-4">
-        <div className="flex flex-wrap items-center justify-center gap-8">
-          {A ? (
-            <div className="relative">
-              <A mode="outline" className="h-40 w-36 sm:h-48 sm:w-44" />
-              {config.colorZones[0] ? (
-                <span className="absolute -right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border-[3px] border-ink bg-white font-display text-sm font-bold">
-                  {config.colorZones[0].num}
-                </span>
-              ) : null}
-            </div>
-          ) : null}
-          {B ? (
-            <div className="relative">
-              <B mode="outline" className="h-32 w-32 sm:h-40 sm:w-40" />
-              {config.colorZones[1] ? (
-                <span className="absolute -left-2 bottom-2 flex h-8 w-8 items-center justify-center rounded-full border-[3px] border-ink bg-white font-display text-sm font-bold">
-                  {config.colorZones[1].num}
-                </span>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-        <div className="mt-4 flex flex-wrap justify-center gap-3">
-          {config.colorZones.slice(2).map(({ zone, num }) => (
-            <span
-              key={zone}
-              className="rounded-xl border-[3px] border-dashed border-ink bg-white px-3 py-2 font-display text-xs font-bold"
-            >
-              {zone} = <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-ink">{num}</span>
-            </span>
-          ))}
-        </div>
-      </div>
     </div>
   )
 }
@@ -175,25 +122,6 @@ function LifecycleOrder({
           {step.Picto ? <step.Picto mode="outline" className="h-14 w-14 shrink-0" /> : null}
           {step.photo ? <PhotoBox src={step.photo.src} alt={step.photo.alt} className="h-14 w-14 shrink-0" /> : null}
           <span className="font-display text-sm font-bold leading-snug">{step.label}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function StoryOrder({ story, shuffle }: { story: readonly string[]; shuffle: readonly number[] }) {
-  const cards = shuffled([...story], shuffle)
-  return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      {cards.map((label) => (
-        <div
-          key={label}
-          className="flex items-center gap-4 rounded-2xl border-[3px] border-dashed border-ink bg-[#fffdf7] p-4"
-        >
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-[3px] border-ink bg-white font-display text-xl font-bold">
-            ?
-          </span>
-          <span className="font-display text-sm font-bold leading-snug">{label}</span>
         </div>
       ))}
     </div>

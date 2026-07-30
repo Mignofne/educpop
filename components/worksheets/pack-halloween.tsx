@@ -1,6 +1,7 @@
 import type { AgeGroup, PackAgeGroup } from "@/lib/activities"
 import { AGE_LABELS } from "@/lib/activities"
 import { NOMENCLATURE_HALLOWEEN } from "@/lib/worksheets/nomenclature-sets"
+import { HalloweenCrossword } from "./halloween-crossword"
 import { PackCover } from "./pack-cover"
 import {
   AnimeColoring,
@@ -68,7 +69,7 @@ const META: Record<PackAgeGroup,
       "3. Automne à classer",
       "4. Vrai / faux — Halloween",
       "5. Soirée à raconter",
-      "6. Chemin défi — chauve-souris",
+      "6. Mots croisés d'automne",
     ],
     activityCount: 6,
   },
@@ -317,16 +318,7 @@ export function PackHalloween({ age }: { age: PackAgeGroup }) {
               { n: 4, label: "On partage les bonbons sous la lune" },
             ]}
           />
-          <AnimePath
-            title="Aide la chauve-souris à rejoindre la lune"
-            instructions="Trace le chemin zigzag. Colorie les bulles du mot OCTOBRE."
-            footerNote="Tracés · Halloween · 8–10 ans"
-            accent="berry"
-            From={PictoBat}
-            To={PictoHalloweenMoon}
-            bubbleWord="OCTOBRE"
-            hard
-          />
+          <HalloweenCrossword />
         </>
       )}
     </div>

@@ -151,7 +151,6 @@ const PACK_ANIME_AGES: Record<string, Exclude<PackAgeGroup, "2-3">> = {
   "pack-pat-patrouille": "4-5",
   "pack-pat-patrouille-4-5": "4-5",
   "pack-pat-patrouille-6-7": "6-7",
-  "pack-pat-patrouille-8-10": "8-10",
   "pack-pyjamasques": "4-5",
   "pack-pyjamasques-4-5": "4-5",
   "pack-pyjamasques-6-7": "6-7",
@@ -159,7 +158,6 @@ const PACK_ANIME_AGES: Record<string, Exclude<PackAgeGroup, "2-3">> = {
   "pack-gabby-chat": "4-5",
   "pack-gabby-chat-4-5": "4-5",
   "pack-gabby-chat-6-7": "6-7",
-  "pack-gabby-chat-8-10": "8-10",
 }
 
 /** Catalogue = packs uniquement (5–8 activités hors couverture). */

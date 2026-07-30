@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import type { AgeGroup, PackAgeGroup } from "@/lib/activities"
 import { AGE_LABELS } from "@/lib/activities"
+import { AsiaCrossword } from "./asia-crossword"
 import { PackCover } from "./pack-cover"
 import {
   AnimeColoring,
@@ -72,7 +73,7 @@ const META: Record<PackAgeGroup,
     subtitle: "Pack autonomie — continent Asie",
     contents: [
       "1. Nomenclature + écrire",
-      "2. Chemin défi",
+      "2. Mots croisés d'Asie",
       "3. Syllabes d'Asie",
       "4. Écriture + phrases",
       "5. Associer pays & symboles",
@@ -251,16 +252,7 @@ export function PackAsie({ age }: { age: PackAgeGroup }) {
             age="8-10"
             cards={NOMENCLATURE_ASIE_PLUS}
           />
-          <AnimePath
-            title="Aide l'éléphant à rejoindre le continent"
-            instructions="Trace le chemin zigzag. Colorie les bulles du mot CONTINENT."
-            footerNote="Tracés · Asie · 8–10 ans"
-            accent="berry"
-            From={PictoElephant}
-            To={PictoAsiaMap}
-            bubbleWord="CONTINENT"
-            hard
-          />
+          <AsiaCrossword />
           <AnimeSyllables
             title="Syllabes d'Asie"
             footerNote="Syllabes · Asie · 8–10 ans"

@@ -1,6 +1,7 @@
 import type { AgeGroup, PackAgeGroup } from "@/lib/activities"
 import { AGE_LABELS } from "@/lib/activities"
 import { NOMENCLATURE_NOEL } from "@/lib/worksheets/nomenclature-sets"
+import { NoelCrossword } from "./noel-crossword"
 import { PackCover } from "./pack-cover"
 import {
   AnimeColoring,
@@ -69,7 +70,7 @@ const META: Record<PackAgeGroup,
       "3. Hiver à classer",
       "4. Vrai / faux — Noël",
       "5. Matinée à raconter",
-      "6. Chemin défi — renne",
+      "6. Mots croisés de l'hiver",
     ],
     activityCount: 6,
   },
@@ -312,16 +313,7 @@ export function PackNoel({ age }: { age: PackAgeGroup }) {
               { n: 4, label: "On partage un chocolat chaud en famille" },
             ]}
           />
-          <AnimePath
-            title="Aide le renne à rejoindre l'étoile"
-            instructions="Trace le chemin zigzag. Colorie les bulles du mot DECEMBRE."
-            footerNote="Tracés · Noël · 8–10 ans"
-            accent="berry"
-            From={PictoReindeer}
-            To={PictoStar}
-            bubbleWord="DECEMBRE"
-            hard
-          />
+          <NoelCrossword />
         </>
       )}
     </div>

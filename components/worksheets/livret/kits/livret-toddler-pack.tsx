@@ -75,7 +75,8 @@ function ColorMatchActivity({
           </div>
           <div className="flex flex-wrap gap-3">
             {colors.map((colorName) => {
-              const swatch = swatches.find((c) => c.name === colorName)!
+              const swatch = swatches.find((c) => c.name === colorName)
+              if (!swatch) return null
               return (
                 <div key={colorName} className="flex flex-col items-center gap-1">
                   <span

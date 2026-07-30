@@ -329,20 +329,6 @@ export const activities: Activity[] = [
     pageCount: 7,
   },
   {
-    slug: "pack-pat-patrouille-8-10",
-    title: "L'univers de Pat' Patrouille",
-    subtitle: "Pack autonomie — 8-10 ans",
-    description:
-      "Nomenclature + écrire, chemin défi, syllabes, phrases, mission à raconter et vrai/faux.",
-    type: "pack",
-    ages: ["8-10"],
-    themes: ["animes", "lecture"],
-    season: "toute-annee",
-    color: "sky",
-    emojiFree: true,
-    pageCount: 7,
-  },
-  {
     slug: "pack-pyjamasques",
     title: "L'univers des Pyjamasques",
     subtitle: "Pack découverte — 4-5 ans",
@@ -413,20 +399,6 @@ export const activities: Activity[] = [
     pageCount: 7,
   },
   {
-    slug: "pack-gabby-chat-8-10",
-    title: "L'univers de Gabby et la maison magique des chats",
-    subtitle: "Pack découverte — 8-10 ans",
-    description:
-      "Nomenclature + écrire, chemin défi, phrases, associer amis & objets, visite à raconter et vrai/faux.",
-    type: "pack",
-    ages: ["8-10"],
-    themes: ["animes", "lecture"],
-    season: "toute-annee",
-    color: "berry",
-    emojiFree: true,
-    pageCount: 7,
-  },
-  {
     slug: "pack-asie-2-3",
     title: "Découvrir l'Asie",
     subtitle: "Pack sensoriel — 2-3 ans",
@@ -473,7 +445,7 @@ export const activities: Activity[] = [
     title: "Découvrir l'Asie",
     subtitle: "Pack autonomie — 8-10 ans",
     description:
-      "Nomenclature, chemin défi, syllabes, phrases, pays & symboles, vrai/faux sur le continent.",
+      "Nomenclature, mots croisés d'Asie, syllabes, phrases, pays & symboles, vrai/faux sur le continent.",
     type: "pack",
     ages: ["8-10"],
     themes: ["asie", "continents", "lecture"],
@@ -753,7 +725,7 @@ export const activities: Activity[] = [
     title: "L'océan",
     subtitle: "Pack autonomie — 8-10 ans",
     description:
-      "Nomenclature, phrases, zones de l'océan, vrai/faux, expédition à raconter et chemin défi pieuvre.",
+      "Nomenclature, phrases, zones de l'océan, vrai/faux, expédition à raconter et mots croisés de la mer.",
     type: "pack",
     ages: ["8-10"],
     themes: ["continents", "lecture"],
@@ -907,7 +879,7 @@ export const activities: Activity[] = [
     title: "Halloween",
     subtitle: "Pack autonomie — 8-10 ans",
     description:
-      "Nomenclature, phrases, automne à classer, vrai/faux, soirée à raconter et chemin défi chauve-souris.",
+      "Nomenclature, phrases, automne à classer, vrai/faux, soirée à raconter et mots croisés d'automne.",
     type: "pack",
     ages: ["8-10"],
     themes: ["lecture"],
@@ -963,7 +935,7 @@ export const activities: Activity[] = [
     title: "Noël",
     subtitle: "Pack autonomie — 8-10 ans",
     description:
-      "Nomenclature, phrases, hiver à classer, vrai/faux, matinée à raconter et chemin défi renne.",
+      "Nomenclature, phrases, hiver à classer, vrai/faux, matinée à raconter et mots croisés de l'hiver.",
     type: "pack",
     ages: ["8-10"],
     themes: ["lecture"],
@@ -991,7 +963,7 @@ export const activities: Activity[] = [
     title: "Les abeilles",
     subtitle: "Livret co-schooling — 6-7 ans",
     description:
-      "Livret A4 court : 8 activités variées autour des pollinisateurs. Coloriage codé additions, nomenclature, cycle de vie, mots croisés.",
+      "Livret A4 : 8 activités autour des pollinisateurs. Coloriage codé additions, nomenclature, tracés, cycle de vie, mots croisés.",
     type: "pack",
     ages: ["6-7"],
     themes: ["animaux", "lecture"],
@@ -1019,7 +991,7 @@ export const activities: Activity[] = [
     title: "Le papillon",
     subtitle: "Livret co-schooling — 6-7 ans",
     description:
-      "Livret 8 pages : cycle chenille–papillon, nomenclature photos, frise, vrai/faux et mots croisés simples.",
+      "Livret 8 pages : cycle chenille–papillon, nomenclature photos, tracés progressifs, frise, vrai/faux et mots croisés.",
     type: "pack",
     ages: ["6-7"],
     themes: ["animaux", "lecture"],
@@ -1047,7 +1019,7 @@ export const activities: Activity[] = [
     title: "La coccinelle",
     subtitle: "Livret co-schooling — 6-7 ans",
     description:
-      "Livret 8 pages : cycle de vie, pucerons, classification vivant/non vivant, mots croisés.",
+      "Livret 8 pages : cycle de vie, pucerons, tracés progressifs, classification vivant/non vivant, mots croisés.",
     type: "pack",
     ages: ["6-7"],
     themes: ["animaux", "lecture"],
@@ -1061,7 +1033,7 @@ export const activities: Activity[] = [
     title: "Le serpent",
     subtitle: "Livret co-schooling — 6-7 ans",
     description:
-      "Livret 8 pages : écailles, mue, habitats désert et forêt, séquence et mots croisés.",
+      "Livret 8 pages : écailles, mue, habitats, tracés progressifs, séquence et mots croisés.",
     type: "pack",
     ages: ["6-7"],
     themes: ["animaux", "lecture"],
@@ -1089,7 +1061,7 @@ export const activities: Activity[] = [
     title: "L'océan",
     subtitle: "Livret co-schooling — 6-7 ans",
     description:
-      "Livret 8 pages : poissons, corail, vagues, classification et mots croisés sur la mer.",
+      "Livret 8 pages : poissons, corail, vagues, tracés progressifs, classification et mots croisés sur la mer.",
     type: "pack",
     ages: ["6-7"],
     themes: ["continents", "lecture"],

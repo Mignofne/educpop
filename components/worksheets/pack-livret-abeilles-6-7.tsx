@@ -1,7 +1,8 @@
 import type { LivretActivityMeta } from "@/lib/livret/types"
 import type { NomenclaturePhoto } from "@/components/worksheets/nomenclature-cards"
 import type { ComponentType, SVGProps } from "react"
-import { PictoBee } from "./art/pictos"
+import { PictoBee, PictoHive } from "./art/pictos"
+import { PathTriple } from "./path-triple"
 import { LivretActivityFrame } from "./livret/livret-activity-frame"
 import { LivretNomenclatureGrid } from "./livret/livret-nomenclature-grid"
 
@@ -100,19 +101,19 @@ const ACTIVITIES: LivretActivityMeta[] = [
   },
   {
     index: 6,
-    title: "Journée d'une butineuse",
-    pedagogicalType: "Séquence",
-    objective: "Remettre une histoire dans l'ordre",
-    skills: ["Logique", "Narration"],
+    title: "Mes chemins",
+    pedagogicalType: "Tracés progressifs",
+    objective: "Tracer du facile au difficile",
+    skills: ["Motricité fine", "Lecture"],
     material: ["Crayon"],
-    childInstruction: "Les cartes sont mélangées. Numérote de 1 à 5, puis raconte l'histoire.",
+    childInstruction: "Trace les 3 chemins. Colorie les bulles du mot ABEILLE.",
     steps: [],
-    learns: "Butiner = quitter la ruche, visiter des fleurs, revenir.",
+    learns: "Motricité et lecture se rejoignent.",
     scientificNote: {
       kind: "fact",
-      text: "Une ouvrière peut visiter des centaines de fleurs en une sortie.",
+      text: "Les tracés préparent l'écriture cursive.",
     },
-    parentQuestions: ["Pourquoi doit-elle revenir à la ruche ?"],
+    parentQuestions: ["Quel chemin était le plus difficile ?", "Retrouve les lettres de ABEILLE dans les bulles."],
   },
   {
     index: 7,
@@ -152,7 +153,7 @@ export const LIVRET_ABEILLES_META = {
     "3. Légende la ruche",
     "4. Vivant ou pas ?",
     "5. De l'œuf à l'abeille",
-    "6. Journée d'une butineuse",
+    "6. Mes chemins",
     "7. Vrai ou faux",
     "8. Mots croisés",
   ],
@@ -186,7 +187,7 @@ export function PackLivretAbeilles67() {
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={ACTIVITIES[5]} themeLabel={themeLabel} activityCount={activityCount} accent="leaf">
-        <BeeStoryOrder />
+        <PathTriple From={PictoBee} To={PictoHive} bubbleWord="ABEILLE" age="6-7" />
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={ACTIVITIES[6]} themeLabel={themeLabel} activityCount={activityCount} accent="sky">

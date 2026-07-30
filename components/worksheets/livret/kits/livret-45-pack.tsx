@@ -1,5 +1,7 @@
 import type { LivretThemeDef } from "@/lib/livret/livret-theme-defs"
+import { PathTriple } from "@/components/worksheets/path-triple"
 import { PhotoBox } from "@/components/worksheets/nomenclature-cards"
+import { LivretColorByNumber } from "../livret-color-by-number"
 import { LivretActivityFrame } from "../livret-activity-frame"
 import { LivretNomenclatureGrid } from "../livret-nomenclature-grid"
 
@@ -10,7 +12,7 @@ function shuffled<T>(items: readonly T[], order: readonly number[]): T[] {
 }
 
 export function PackLivret45({ config }: { config: LivretThemeDef }) {
-  const { themeLabel, meta45: activities, cards8: cards } = config
+  const { themeLabel, meta45: activities, cards8: cards, pathConfig } = config
   const activityCount = 7
 
   return (
@@ -20,7 +22,7 @@ export function PackLivret45({ config }: { config: LivretThemeDef }) {
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={activities[1]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[1]}>
-        <ColorByNumber45 config={config} />
+        <LivretColorByNumber pictos={config.coloringPictos} colorLegend={config.colorLegend} colorZones={config.colorZones} />
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={activities[2]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[2]}>
@@ -40,44 +42,10 @@ export function PackLivret45({ config }: { config: LivretThemeDef }) {
       </LivretActivityFrame>
 
       <LivretActivityFrame meta={activities[6]} themeLabel={themeLabel} activityCount={activityCount} accent={ACCENTS[6]}>
-        <SimpleMaze Hero={config.coloringPictos[0]} />
+        {pathConfig ? (
+          <PathTriple From={pathConfig.From} To={pathConfig.To} bubbleWord={pathConfig.bubbleWord} age="4-5" />
+        ) : null}
       </LivretActivityFrame>
-    </div>
-  )
-}
-
-function ColorByNumber45({ config }: { config: LivretThemeDef }) {
-  const [A, B] = config.coloringPictos
-
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-2xl border-[3px] border-ink bg-white px-3 py-2">
-        <p className="font-display text-[10px] font-bold uppercase tracking-wide text-ink/55">Légende des couleurs</p>
-        <ul className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
-          {config.colorLegend.map(({ num, name }) => (
-            <li key={num} className="flex items-center gap-1.5 font-display text-xs font-bold">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-[2.5px] border-ink bg-[#fffdf7] text-[10px]">
-                {num}
-              </span>
-              <span>= {name}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="flex flex-wrap items-center justify-center gap-6 rounded-2xl border-[3px] border-ink bg-[#fffdf7] p-6">
-        {A ? (
-          <div className="relative">
-            <A mode="outline" className="h-36 w-32" />
-            <span className="absolute right-0 top-0 flex h-7 w-7 items-center justify-center rounded-full border-[3px] border-ink bg-white text-xs font-bold">1</span>
-          </div>
-        ) : null}
-        {B ? (
-          <div className="relative">
-            <B mode="outline" className="h-28 w-28" />
-            <span className="absolute left-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-[3px] border-ink bg-white text-xs font-bold">2</span>
-          </div>
-        ) : null}
-      </div>
     </div>
   )
 }
@@ -177,25 +145,6 @@ function LivingSort({ config }: { config: LivretThemeDef }) {
           </div>
         </div>
       ))}
-    </div>
-  )
-}
-
-function SimpleMaze({ Hero }: { Hero?: LivretThemeDef["coloringPictos"][number] }) {
-  return (
-    <div className="rounded-2xl border-[3px] border-ink bg-[#fffdf7] p-4">
-      <svg viewBox="0 0 320 200" className="mx-auto h-auto w-full max-w-md text-ink" aria-label="Labyrinthe simple">
-        <rect x="8" y="8" width="304" height="184" fill="white" stroke="currentColor" strokeWidth="3" rx="8" />
-        <path d="M24 24 H120 V56 H200 V88 H88 V120 H232 V152 H56 V176" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="24" cy="24" r="8" fill="white" stroke="currentColor" strokeWidth="2.5" />
-        <circle cx="56" cy="176" r="8" fill="white" stroke="currentColor" strokeWidth="2.5" />
-      </svg>
-      {Hero ? (
-        <div className="mt-3 flex justify-center">
-          <Hero mode="outline" className="h-12 w-12" />
-        </div>
-      ) : null}
-      <p className="mt-2 text-center text-xs font-semibold text-ink/50">Trace le chemin du départ à la sortie.</p>
     </div>
   )
 }
