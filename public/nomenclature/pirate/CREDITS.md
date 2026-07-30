@@ -1,21 +1,7 @@
 # Crédits photos — nomenclature pirate
 
-Source : Wikimedia Commons (réutilisation selon licence de chaque fichier).
-Téléchargement : `node scripts/fetch-nomenclature-photos.mjs`
+Source : Wikimedia Commons.
 
-| Fichier |
-|---------|
-| `bateau.jpg` |
-| `boussole.jpg` |
-| `chapeau.jpg` |
-| `mer.jpg` |
-| `tresor.jpg` |
-
-Voir aussi les pages Commons des fichiers d’origine (métadonnées auteur / licence).
-| `carte.jpg` | carte | Nautical chart.jpg |
-| `ancre.jpg` | ancre | Anchor.jpg |
-| `voile.jpg` | voile | White sail.jpg |
-| `perroquet.jpg` | perroquet | Scarlet macaw.jpg |
-| `vague.jpg` | vague | Breaking wave.jpg |
-| `phare.jpg` | phare | Lighthouse.jpg |
-| `ile.jpg` | ile | Small island.jpg |
+| Fichier | Sujet | Source Commons |
+|---------|-------|----------------|
+| `tresor.jpg` | coffre au trésor | Treasure Chest (3981686321).jpg |

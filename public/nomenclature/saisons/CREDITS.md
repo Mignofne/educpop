@@ -9,5 +9,5 @@ Source : Wikimedia Commons.
 | `nuage.jpg` | nuage | Cloud.jpg |
 | `arbre.jpg` | arbre | Tree.jpg |
 | `pomme.jpg` | pomme | Apple.jpg |
-| `gland.jpg` | gland | Acorn.jpg |
+| `gland.jpg` | gland de chêne | Acorn.jpg |
 | `arc-en-ciel.jpg` | arc-en-ciel | Double rainbow.jpg |

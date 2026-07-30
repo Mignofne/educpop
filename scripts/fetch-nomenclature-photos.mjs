@@ -88,7 +88,7 @@ const TITLES = {
   "nuage.jpg": ["Cloud.jpg"],
   "arbre.jpg": ["Tree.jpg"],
   "pomme.jpg": ["Apple.jpg"],
-  "gland.jpg": ["Acorn.jpg"],
+  "gland.jpg": ["Acorn.jpg", "Quercus robur acorn.jpg", "Acorns.jpg", "Oak acorns.jpg"],
   // coccinelle
   "coccinelle.jpg": ["Coccinella septempunctata.jpg", "Ladybug.jpg"],
   "abeille.jpg": ["Honey bee.jpg", "Apis mellifera.jpg"],
@@ -151,8 +151,16 @@ const TITLES = {
   "mais.jpg": ["Corn.jpg", "Maize ear.jpg"],
   // noel
   "sapin.jpg": ["Christmas tree.jpg"],
-  "etoile.jpg": ["Christmas star.jpg", "Star ornament.jpg"],
-  "cadeau.jpg": ["Gift.jpg", "Wrapped gift.jpg"],
+  "etoile.jpg": [
+    "Gold star christmas ornament.jpg",
+    "Red star christmas ornament.jpg",
+    "Christmas star.jpg",
+  ],
+  "cadeau.jpg": [
+    "Brown gift box with red ribbon and bow.jpg",
+    "Gifts xmas.jpg",
+    "Christmas Tree and Presents.jpg",
+  ],
   "moufle.jpg": ["Gloves.jpg"],
   "chocolat.jpg": ["Hot chocolate.jpg"],
   "renne.jpg": ["Reindeer.jpg", "Rangifer tarandus.jpg"],
@@ -161,6 +169,15 @@ const TITLES = {
   "cloche.jpg": ["Christmas bell.jpg"],
   "botte.jpg": ["Winter boots.jpg"],
   "buche.jpg": ["Firewood.jpg"],
+  "tresor.jpg": [
+    "Treasure Chest (3981686321).jpg",
+    "Treasure chest, Jockey's Ridge Mini-Golf, Nags Head, North Carolina (LOC).jpg",
+  ],
+  "dragon.jpg": [
+    "Dragon statue.jpg",
+    "Dragon Dance 1.jpg",
+    "Dragon Dance 2.jpg",
+  ],
   // abeilles
   "ruche.jpg": ["Skep bee hive.jpg", "Beehive.jpg", "Langstroth hive.jpg"],
   "miel.jpg": ["Honey.jpg", "Honey jar.jpg"],

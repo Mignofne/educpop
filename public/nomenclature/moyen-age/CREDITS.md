@@ -6,7 +6,7 @@ Source : **Wikimedia Commons** (licences libres — voir chaque page fichier).
 |---------|-------|----------------|
 | `chateau.jpg` | Château | Chateau_de_Chenonceau_2008.jpg |
 | `chevalier.jpg` | Armure / chevalier | Warwick_Castle_knight+horse_1.jpg |
-| `dragon.jpg` | Dragon (parade / statue) | (Commons — dragon dance / festival) |
+| `dragon.jpg` | dragon (créature) | Dragon statue.jpg |
 | `couronne.jpg` | Couronne | St_Edward's_Crown.jpg |
 | `blason.jpg` | Blason / écu | Dish with Heraldic Shield MET sf14-40-728d1.jpg |
 | `epee.jpg` | Épée | Francois_I_sword-J_316-IMG_1805-white.jpg |
